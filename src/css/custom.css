@@ -1,0 +1,115 @@
+/* Global link colors */
+a:link {
+    color: #A30F37;
+	text-decoration:none;
+}
+
+a:visited {
+    color: #A30F37;
+	text-decoration:none;
+}
+
+a:hover {
+    color: #8B072B;
+	text-decoration:underline;
+}
+
+/*Helper classses */
+.center {
+	display:inline;
+	margin-top:15%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.fixed-max-width{
+	max-width:400px;
+}
+
+.hidden{
+	visibility: hidden;
+}
+
+.top-offset{
+	margin-top:15%;
+}
+
+.top-offset-20{
+	margin-top:20%;
+}
+
+.button-create{
+	margin-top:20px;
+}
+
+/* Navigation bar stuff */
+.navBar {
+	background-color:#A30F37;
+	overflow: hidden;
+	padding-left:15px;
+	padding-right:15px;
+	height:56px;
+}
+
+/*Login container*/
+.navLogin{
+	float:right;
+}
+
+/* Navigation bar links stuff */
+.navBar a {
+	background-color:#A30F37;
+	text-align:center;
+	font-size:15px;
+	color:white;
+	text-decoration: none;
+	padding:14px 16px;
+	float:left;
+}
+
+.navBar p{
+	padding:14px 16px;
+}
+
+/* the current active button via a data tag*/
+[data-active]
+{
+	border-bottom: 4px solid #cccccc;
+	background-color:#A30F37;
+	
+}
+
+.navBar a:hover {
+	background-color:#8B072B;
+	border-bottom: 4px solid #cccccc;
+	color:white !important;
+}
+
+.login > input[type="email"]{
+	max-width:250px;
+}
+
+.login > input[type="password"]{
+	max-width:250px;
+}
+
+.login > input[type="text"]{
+	max-width:250px;
+}
+
+.center{
+	display;block;
+	margin-top:25%;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+.hrule{
+    width: 100%;
+    border-bottom: 2px solid black;
+}
+
+
+
+
