@@ -19,7 +19,7 @@
 			<div class="six columns offset-by-three">
 			<fieldset>
 				<p class="u-full-width">Please login to continue:</p>
-				<form class="login" method="post" action="/se/login_submit.php">
+				<form class="login" method="post" action="/se/login_submit">
 					<label for="userNameInput">Username:</label>
 					<input class="u-full-width"  id="username" name="username" value="" type="text" maxlength="100">
 					<label for="passwordInput">Password:</label>

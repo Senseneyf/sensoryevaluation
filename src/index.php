@@ -14,8 +14,8 @@
 <body>
 	<div class="navBar">
 		<a data-active href="/se/">My Tests</a>
-		<a href="/se/test.php"> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a data-active href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
+		<a href="/se/test_edit"> + </a>
+		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
 	</div>
 	<div class="container">
 	<div class="row">
@@ -32,21 +32,21 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><a href="#">Cake Tenderness</a></td>
+					<td><a href="/se/test_info">Cake Tenderness</a></td>
 					<td>10/31/17 11:15 AM </td>
 					<td>11/06/17 3:25 PM</td>
 					<td>William R.</</td>
 					<td><a href="#">remove</a></td>
 				</tr>
 				<tr>
-					<td><a href="#">Cake Textural Acceptability</a></td>
+					<td><a href="/se/test_info_2">Cake Textural Acceptability</a></td>
 					<td>11/13/17 1:01 PM </td>
 					<td>11/15/17 4:32 PM</td>
 					<td>William R.</</td>
 					<td><a href="#">remove</a></td>
 				</tr>
 				<tr>
-					<td><a href="#">Sports Drink Sweetness</a></td>
+					<td><a href="/se/test_info_3">Sports Drink Sweetness</a></td>
 					<td>11/21/17 12:01 PM </td>
 					<td>12/03/17 7:59 PM</td>
 					<td>Deanna T.</</td>
@@ -54,7 +54,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<a class="button button-create" href="/se/test.php">Create New Test</a>
+		<a class="button button-create" href="/se/test_edit">Create New Test</a>
   </div>
   </div>
 </body>

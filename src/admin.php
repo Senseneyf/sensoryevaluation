@@ -14,14 +14,14 @@
 <body>
   <div class="navBar">
 	<a href="/se/">My Tests</a>
-	<a href="/se/test"> + </a>
+	<a href="/se/test_edit"> + </a>
 	<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a data-active href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
   </div>
   <div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
-			<div class="eight columns offset-by-one">
-				<h3>admin</h3><div class="hrule"></div><br>
+			<div class="nine columns offset-by-one">
+				<h4>Admin</h4><div class="hrule"></div><br><br>
 				<a href="#" class="button">Id generator</a>
 		</div>
     </div>
