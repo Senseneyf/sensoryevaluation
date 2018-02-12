@@ -1,47 +1,44 @@
 <?php include 'session_check.php'; ?>
 <?php
-	if(isset($_GET['testName'])){
-		$testName = $_GET['testName'];
-	}
-	else{
-		$testName = "";
-	}
-	if(isset($_GET['testDiscription'])){
-		$testDiscription = $_GET['testDiscription'];
-	}
-	else{
-		$testDiscription = "";
-	}
-	if(isset($_GET['sampleNumber'])){
-		$sampleNumber = $_GET['sampleNumber'];
-	}
-	else{
-		$sampleNumber = 1;
-	}
-	if(isset($_GET['attributeName'])){
-		$attributeName = $_GET['attributeName'];
-	}
-	else{
-		$attributeName = "";
-	}
-	if(isset($_GET['attributeType'])){
-		$attributeType = $_GET['attributeType'];
-	}
-	else{
-		$attributeType = 3;
-	}
-	if(isset($_GET['attributeStartD'])){
-		$attributeStartD = $_GET['attributeStartD'];
-	}
-	else{
-		$attributeStartD = "";
-	}
-	if(isset($_GET['attributeEndD'])){
-		$attributeEndD = $_GET['attributeEndD'];
-	}
-	else{
-		$attributeEndD = "";
-	}
+
+	/* check if the testId is set 
+       if set, read from db to fill forms for editing */  
+	
+	//if(isset($_GET['testId'])){
+        
+        /* connect to db */
+        $con = new mysqli('localhost','root','applechair','test');
+	    if($con->connect_error){
+            exit("Database connection failed");
+        }
+        
+        /* prepare statement to read from db */
+        $stmt = $con->prepare("SELECT TestName,
+                                      TestDescription,
+                                      NumberOfSamples,
+                                      AttributeName,
+                                      ScaleType,
+                                      StartDescription,
+                                      MiddleDescription,
+                                      EndDescription
+                                FROM Tests
+                                WHERE TestId= 1"); /* THIS IS SET TO TEST AN EXISTING ROW IN DB */
+        //$stmt->bind_param("i", $testId);
+        $stmt->execute();
+        $stmt->bind_result($testName, $testDescription,
+                           $numberOfSamples, $attributeName, 
+                           $scaleType, $startDescription,
+                           $middleDescription, $endDescription);
+        $stmt->store_result();
+        $con->close();
+		$stmt->close();
+    //}
+
+        /* set php variables */
+
+	/* write to DB */
+	/* read from db, set php variables */
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,21 +63,21 @@
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
 				<fieldset>
-				<h4>Test creation</h4>
+				<h4>Test Creation</h4>
 				<div class="hrule"></div>
 				<form class="fixed-max-width"><br>
 					<label for="testName">Name: </label>
 					<input class="u-full-width" type="text" name="testName" <?php echo 'value="'.htmlspecialchars($testName).'"'; ?> style="width:300px">
-					<label for="testDiscription">Discription</label>
-					<textarea class="u-full-width" name="testDiscription" style="height:115px;"><?php echo htmlspecialchars($testDiscription); ?></textarea>
+					<label for="testDescription">Description</label>
+					<textarea class="u-full-width" name="testDescription" style="height:115px;"><?php echo htmlspecialchars($testDescription); ?></textarea>
 					<label for="sampleNumber">Number of Samples</label>
 					<select name="sampleNumber">
-						<option <?php if($sampleNumber == 1){ echo selected; }?> value="1">1</option>
-						<option <?php if($sampleNumber == 2){ echo selected; }?> value="2">2</option>
-						<option <?php if($sampleNumber == 3){ echo selected; }?> value="3">3</option>
-						<option <?php if($sampleNumber == 4){ echo selected; }?> value="4">4</option>
-						<option <?php if($sampleNumber == 5){ echo selected; }?> value="5">5</option>
-						<option <?php if($sampleNumber == 6){ echo selected; }?> value="6">6</option>
+						<option <?php if($numberOfSamples == 1){ echo selected; }?> value="1">1</option>
+						<option <?php if($numberOfSamples == 2){ echo selected; }?> value="2">2</option>
+						<option <?php if($numberOfSamples == 3){ echo selected; }?> value="3">3</option>
+						<option <?php if($numberOfSamples == 4){ echo selected; }?> value="4">4</option>
+						<option <?php if($numberOfSamples == 5){ echo selected; }?> value="5">5</option>
+						<option <?php if($numberOfSamples == 6){ echo selected; }?> value="6">6</option>
 					</select>
 					<fieldset>
 					<label for="attributes">Attributes</label>
@@ -92,11 +89,11 @@
 						<option <?php if($attributeType == 4){ echo selected; }?> value="4">6 point scale</option>
 						<option <?php if($attributeType == 5){ echo selected; }?> value="5">Custom scale</option>
 					</select></div>
-					<div>Start descriptor: <input class="u-full-width" type="text" name="attributeStartD" <?php echo 'value="'.htmlspecialchars($attributeStartD).'"'; ?> style="width:150px"></div>
-					<div>End descriptor: <input class="u-full-width" type="text" name="attributeEndD" <?php echo 'value="'.htmlspecialchars($attributeEndD).'"'; ?> style="width:150px"></div>
+					<div>Start descriptor: <input class="u-full-width" type="text" name="startDesription" <?php echo 'value="'.htmlspecialchars($startDescription).'"'; ?> style="width:150px"></div>
+					<div>End descriptor: <input class="u-full-width" type="text" name="endDescription" <?php echo 'value="'.htmlspecialchars($endDescription).'"'; ?> style="width:150px"></div>
 					<div><a href="#">Add new attribute</a></div>
 					</fieldset>
-					<br><input class="button-secondary" method="post" action="/se/test" type="submit" value="Submit"> <input class="button-secondary" method="post" type="submit" value="Cancel">
+					<br><input class="button-secondary" method="post" action="/se/test_edit_submit" type="submit" value="Submit"> <input class="button-secondary" method="post" type="submit" value="Cancel">
 				</form>
 				</fieldset>
 			</div>

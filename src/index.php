@@ -1,4 +1,26 @@
-<?php include 'session_check.php'; ?>
+<?php include 'session_check.php';
+
+    /* TODO: check if admin is using */
+    /* TODO: find a way to use session username */
+    /* TODO: PHP logic for filling html content with query results */
+
+    /* connect to DB */
+    $con = new mysqli('localhost','root','applechair','test');
+	if($con->connect_error){
+		exit("Database connection failed");
+	}
+	
+    /* search db for all tests created by logged in user */
+    $stmt = $con->prepare("SELECT TestName
+                          FROM Tests
+                          WHERE TestCreator= ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+
+    /* returns result set from query */
+    $result = $stmt->get_result();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
