@@ -1,0 +1,46 @@
+/****** Object: Table [dbo].[Example Triangle Test]   Script Date: 2/14/2018 8:06:51 PM ******/
+USE [Sensory Evaluation];
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Example Triangle Test]') AND type in (N'U'))
+BEGIN
+DROP TABLE [dbo].[Example Triangle Test];
+END
+GO
+
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Example Triangle Test]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Example Triangle Test] (
+[Entrance_ID] int NOT NULL,
+[Test_ID] int NOT NULL DEFAULT ((4)),
+[JudgeName] text COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Date] datetime NOT NULL DEFAULT (getdate()),
+[Sample1] bit NULL,
+[Sample2] bit NULL,
+[Sample3] bit NULL,
+CONSTRAINT [PK__Example __F0035F27EA5640AC]
+PRIMARY KEY CLUSTERED ([Entrance_ID] ASC)
+WITH ( PAD_INDEX = OFF,
+FILLFACTOR = 100,
+IGNORE_DUP_KEY = OFF,
+STATISTICS_NORECOMPUTE = OFF,
+ALLOW_ROW_LOCKS = ON,
+ALLOW_PAGE_LOCKS = ON,
+DATA_COMPRESSION = NONE )
+ ON [PRIMARY],
+CONSTRAINT [FK__Example T__Test___4AB81AF0]
+FOREIGN KEY ([Test_ID])
+REFERENCES [dbo].[Tests] ( [Test_ID] )
+)
+ON [PRIMARY]
+TEXTIMAGE_ON [PRIMARY];
+END;
+GO
+ALTER TABLE [dbo].[Example Triangle Test] SET (LOCK_ESCALATION = TABLE);
+GO
+
+
+

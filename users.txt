@@ -1,0 +1,46 @@
+/****** Object: Table [dbo].[Users]   Script Date: 2/14/2018 8:05:27 PM ******/
+USE [Sensory Evaluation];
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Users]') AND type in (N'U'))
+BEGIN
+/* Drop constraints script is generated to allow dropping of the table */
+IF (OBJECT_ID('[dbo].[FK_Tests_Users]') IS NOT NULL)
+  ALTER TABLE [dbo].[Tests] 
+    DROP CONSTRAINT [FK_Tests_Users];
+DROP TABLE [dbo].[Users];
+END
+GO
+
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Users]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Users] (
+[User_Id] int NOT NULL,
+[First Name] nchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Last Name] nchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[email] nchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[password] nchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[User_Type] nchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+CONSTRAINT [PK_Users]
+PRIMARY KEY CLUSTERED ([User_Id] ASC)
+WITH ( PAD_INDEX = OFF,
+FILLFACTOR = 100,
+IGNORE_DUP_KEY = OFF,
+STATISTICS_NORECOMPUTE = OFF,
+ALLOW_ROW_LOCKS = ON,
+ALLOW_PAGE_LOCKS = ON,
+DATA_COMPRESSION = NONE )
+ ON [PRIMARY]
+)
+ON [PRIMARY];
+END;
+GO
+ALTER TABLE [dbo].[Users] SET (LOCK_ESCALATION = TABLE);
+GO
+
+
+
+

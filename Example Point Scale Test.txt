@@ -1,0 +1,44 @@
+/****** Object: Table [dbo].[Example Point Scale Test]   Script Date: 2/14/2018 8:07:58 PM ******/
+USE [Sensory Evaluation];
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Example Point Scale Test]') AND type in (N'U'))
+BEGIN
+DROP TABLE [dbo].[Example Point Scale Test];
+END
+GO
+
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Example Point Scale Test]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Example Point Scale Test] (
+[Entrance_ID] int NOT NULL,
+[Test_ID] int NOT NULL DEFAULT ((1)),
+[JudgeName] text COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Date] datetime NULL DEFAULT (getdate()),
+[Sample1] int NOT NULL,
+[Sample2] int NOT NULL,
+[Sample3] int NOT NULL,
+CONSTRAINT [PK__Example __F0035F27BCAB6740]
+PRIMARY KEY CLUSTERED ([Entrance_ID] ASC)
+WITH ( PAD_INDEX = OFF,
+FILLFACTOR = 100,
+IGNORE_DUP_KEY = OFF,
+STATISTICS_NORECOMPUTE = OFF,
+ALLOW_ROW_LOCKS = ON,
+ALLOW_PAGE_LOCKS = ON,
+DATA_COMPRESSION = NONE )
+ ON [PRIMARY],
+CONSTRAINT [FK_dbo_Example Point Scale Test_1]
+FOREIGN KEY ([Test_ID])
+REFERENCES [dbo].[Tests] ( [Test_ID] )
+)
+ON [PRIMARY]
+TEXTIMAGE_ON [PRIMARY];
+END;
+GO
+ALTER TABLE [dbo].[Example Point Scale Test] SET (LOCK_ESCALATION = TABLE);
+GO
+

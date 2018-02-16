@@ -1,0 +1,73 @@
+/****** Object: Table [dbo].[Tests]   Script Date: 2/14/2018 8:06:02 PM ******/
+USE [Sensory Evaluation];
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Tests]') AND type in (N'U'))
+BEGIN
+DECLARE @TRAN NVARCHAR(MAX);
+SET @TRAN = 'Drop_Of_Table_dbo.Tests';
+BEGIN TRANSACTION @TRAN WITH MARK N'Dropping Table dbo.Tests';
+/* Drop constraints script is generated to allow dropping of the table */
+IF (OBJECT_ID('[dbo].[FK__Example D__Test___44FF419A]') IS NOT NULL)
+  ALTER TABLE [dbo].[Example Duo/Trio Test] 
+    DROP CONSTRAINT [FK__Example D__Test___44FF419A];
+IF (OBJECT_ID('[dbo].[FK_dbo_Example Point Scale Test_1]') IS NOT NULL)
+  ALTER TABLE [dbo].[Example Point Scale Test] 
+    DROP CONSTRAINT [FK_dbo_Example Point Scale Test_1];
+IF (OBJECT_ID('[dbo].[FK__Example T__Test___4AB81AF0]') IS NOT NULL)
+  ALTER TABLE [dbo].[Example Triangle Test] 
+    DROP CONSTRAINT [FK__Example T__Test___4AB81AF0];
+IF (OBJECT_ID('[dbo].[FK__Example U__Test___6EF57B66]') IS NOT NULL)
+  ALTER TABLE [dbo].[Example Unstructured Scale Test] 
+    DROP CONSTRAINT [FK__Example U__Test___6EF57B66];
+
+/* Dropping the table */
+DROP TABLE [dbo].[Tests];
+
+IF (@@ERROR <> 0)
+  ROLLBACK TRAN @TRAN;
+ELSE
+  COMMIT TRANSACTION @TRAN;
+
+END
+GO
+
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Tests]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Tests] (
+[Test_ID] int NOT NULL,
+[User_Id] int NOT NULL,
+[Name] text COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Description] text COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Date_Created] datetime NULL,
+[Last_Modified] datetime NULL,
+[Type_Of_Test] text COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Type_Of_Scale] text COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[Number_Of_Points] int NULL,
+[StartDescription] text COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[MiddleDescription] text COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EndDiscription] text COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+CONSTRAINT [PK_Tests]
+PRIMARY KEY CLUSTERED ([Test_ID] ASC)
+WITH ( PAD_INDEX = OFF,
+FILLFACTOR = 100,
+IGNORE_DUP_KEY = OFF,
+STATISTICS_NORECOMPUTE = OFF,
+ALLOW_ROW_LOCKS = ON,
+ALLOW_PAGE_LOCKS = ON,
+DATA_COMPRESSION = NONE )
+ ON [PRIMARY],
+CONSTRAINT [FK_Tests_Users]
+FOREIGN KEY ([User_Id])
+REFERENCES [dbo].[Users] ( [User_Id] )
+)
+ON [PRIMARY]
+TEXTIMAGE_ON [PRIMARY];
+END;
+GO
+ALTER TABLE [dbo].[Tests] SET (LOCK_ESCALATION = TABLE);
+GO
+

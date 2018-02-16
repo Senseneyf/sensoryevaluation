@@ -1,0 +1,141 @@
+/****** Object: Database [Sensory Evaluation]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [master];
+GO
+CREATE DATABASE [Sensory Evaluation]
+ON
+PRIMARY
+( NAME = N'Sensory Evaluation', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\Sensory Evaluation.mdf', SIZE = 4MB, MAXSIZE = UNLIMITED, FILEGROWTH = 1MB )
+LOG ON
+( NAME = N'Sensory Evaluation_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.SQLEXPRESS\MSSQL\DATA\Sensory Evaluation_log.ldf', SIZE = 1MB, MAXSIZE = 2097152 MB, FILEGROWTH = 10% );
+GO
+ALTER DATABASE [Sensory Evaluation] SET COMPATIBILITY_LEVEL = 120;
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+BEGIN
+EXEC [sys].[sp_fulltext_database] @action = 'enable'
+END;
+GO
+ALTER DATABASE [Sensory Evaluation] SET ANSI_NULL_DEFAULT OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET ANSI_NULLS OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET ANSI_PADDING OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET ANSI_WARNINGS OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET ARITHABORT OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET AUTO_CLOSE OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET AUTO_CREATE_STATISTICS ON;
+GO
+ALTER DATABASE [Sensory Evaluation] SET AUTO_SHRINK OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET AUTO_UPDATE_STATISTICS ON;
+GO
+ALTER DATABASE [Sensory Evaluation] SET CURSOR_CLOSE_ON_COMMIT OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET CURSOR_DEFAULT GLOBAL;
+GO
+ALTER DATABASE [Sensory Evaluation] SET CONCAT_NULL_YIELDS_NULL OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET NUMERIC_ROUNDABORT OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET QUOTED_IDENTIFIER OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET RECURSIVE_TRIGGERS OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET DISABLE_BROKER;
+GO
+ALTER DATABASE [Sensory Evaluation] SET AUTO_UPDATE_STATISTICS_ASYNC OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET DATE_CORRELATION_OPTIMIZATION OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET TRUSTWORTHY OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET ALLOW_SNAPSHOT_ISOLATION OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET READ_COMMITTED_SNAPSHOT OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET PARAMETERIZATION SIMPLE;
+GO
+ALTER DATABASE [Sensory Evaluation] SET RECOVERY SIMPLE;
+GO
+ALTER DATABASE [Sensory Evaluation] SET MULTI_USER;
+GO
+ALTER DATABASE [Sensory Evaluation] SET PAGE_VERIFY CHECKSUM;
+GO
+ALTER DATABASE [Sensory Evaluation] SET DB_CHAINING OFF;
+GO
+ALTER DATABASE [Sensory Evaluation] SET FILESTREAM (NON_TRANSACTED_ACCESS = OFF);
+GO
+USE [Sensory Evaluation];
+GO
+EXEC sys.sp_changedbowner @loginame = N'Shaina-HP\Shaina', @map = false;
+GO
+/****** Object: Schema [db_accessadmin]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_accessadmin] AUTHORIZATION [db_accessadmin]
+GO
+/****** Object: Schema [db_backupoperator]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_backupoperator] AUTHORIZATION [db_backupoperator]
+GO
+/****** Object: Schema [db_datareader]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_datareader] AUTHORIZATION [db_datareader]
+GO
+/****** Object: Schema [db_datawriter]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_datawriter] AUTHORIZATION [db_datawriter]
+GO
+/****** Object: Schema [db_ddladmin]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_ddladmin] AUTHORIZATION [db_ddladmin]
+GO
+/****** Object: Schema [db_denydatareader]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_denydatareader] AUTHORIZATION [db_denydatareader]
+GO
+/****** Object: Schema [db_denydatawriter]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_denydatawriter] AUTHORIZATION [db_denydatawriter]
+GO
+/****** Object: Schema [db_owner]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_owner] AUTHORIZATION [db_owner]
+GO
+/****** Object: Schema [db_securityadmin]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [db_securityadmin] AUTHORIZATION [db_securityadmin]
+GO
+/****** Object: Schema [dbo]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [dbo] AUTHORIZATION [dbo]
+GO
+/****** Object: Schema [guest]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [guest] AUTHORIZATION [guest]
+GO
+/****** Object: Schema [INFORMATION_SCHEMA]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [INFORMATION_SCHEMA] AUTHORIZATION [INFORMATION_SCHEMA]
+GO
+/****** Object: Schema [sys]   Script Date: 2/14/2018 6:47:17 PM ******/
+USE [Sensory Evaluation];
+GO
+CREATE SCHEMA [sys] AUTHORIZATION [sys]
+GO
+ 

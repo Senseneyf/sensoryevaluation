@@ -1,0 +1,42 @@
+/****** Object: Table [dbo].[Example Duo/Trio Test]   Script Date: 2/14/2018 8:08:25 PM ******/
+USE [Sensory Evaluation];
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Example Duo/Trio Test]') AND type in (N'U'))
+BEGIN
+DROP TABLE [dbo].[Example Duo/Trio Test];
+END
+GO
+
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Example Duo/Trio Test]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[Example Duo/Trio Test] (
+[Entrance_ID] int NOT NULL,
+[Test_ID] int NOT NULL DEFAULT ((2)),
+[JudgeName] text COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Date] datetime NULL DEFAULT (getdate()),
+[SameSample] bit NULL,
+CONSTRAINT [PK__Example __F0035F2732D1F2D1]
+PRIMARY KEY CLUSTERED ([Entrance_ID] ASC)
+WITH ( PAD_INDEX = OFF,
+FILLFACTOR = 100,
+IGNORE_DUP_KEY = OFF,
+STATISTICS_NORECOMPUTE = OFF,
+ALLOW_ROW_LOCKS = ON,
+ALLOW_PAGE_LOCKS = ON,
+DATA_COMPRESSION = NONE )
+ ON [PRIMARY],
+CONSTRAINT [FK__Example D__Test___44FF419A]
+FOREIGN KEY ([Test_ID])
+REFERENCES [dbo].[Tests] ( [Test_ID] )
+)
+ON [PRIMARY]
+TEXTIMAGE_ON [PRIMARY];
+END;
+GO
+ALTER TABLE [dbo].[Example Duo/Trio Test] SET (LOCK_ESCALATION = TABLE);
+GO
+
