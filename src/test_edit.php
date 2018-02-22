@@ -14,15 +14,15 @@
         
         /* prepare statement to read from db */
         $stmt = $con->prepare("SELECT TestName,
-                                      TestDescription,
-                                      NumberOfSamples,
-                                      AttributeName,
-                                      ScaleType,
-                                      StartDescription,
-                                      MiddleDescription,
-                                      EndDescription
-                                FROM Tests
-                                WHERE TestId= ?"); 
+                               TestDescription,
+                               NumberOfSamples,
+                               AttributeName,
+                               ScaleType,
+                               StartDescription,
+                               MiddleDescription,
+                               EndDescription
+                               FROM Tests
+                               WHERE TestId= ?"); 
         $stmt->bind_param("i", $_GET['testId']);
         $stmt->execute();
         $stmt->bind_result($testName, $testDescription,
@@ -77,15 +77,12 @@
 					<label for="attributes">Attributes</label>
 					<div>Name: <input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px"></div>
 					<div>Type: <select name="attributeType">
-						<option <?php if($attributeType == 1){ echo selected; }?> value="1">Input int</option>
-						<option <?php if($attributeType == 2){ echo selected; }?> value="2">Input string</option>
-						<option <?php if($attributeType == 3){ echo selected; }?> value="3">9 point scale</option>
-						<option <?php if($attributeType == 4){ echo selected; }?> value="4">6 point scale</option>
-						<option <?php if($attributeType == 5){ echo selected; }?> value="5">Custom scale</option>
+						<option <?php if($attributeType == 1){ echo selected; }?> value="3">9 point scale</option>
+						<option <?php if($attributeType == 2){ echo selected; }?> value="4">6 point scale</option>
+						<option <?php if($attributeType == 3){ echo selected; }?> value="5">Unstructured scale</option>
 					</select></div>
 					<div>Start descriptor: <input class="u-full-width" type="text" name="startDescription" <?php echo 'value="'.htmlspecialchars($startDescription).'"'; ?> style="width:150px"></div>
 					<div>End descriptor: <input class="u-full-width" type="text" name="endDescription" <?php echo 'value="'.htmlspecialchars($endDescription).'"'; ?> style="width:150px"></div>
-					<div><a href="#">Add new attribute</a></div>
 					</fieldset>
 					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <input class="button-secondary" method="post" type="submit" value="Cancel">
 				</form>
