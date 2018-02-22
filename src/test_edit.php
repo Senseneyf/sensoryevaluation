@@ -83,8 +83,8 @@
 					<label for="attributes">Attributes</label>
 					<div>Name: <input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px"></div>
 					<div>Type: <select name="attributeType">
-						<option <?php if($attributeType == 1){ echo selected; }?> value="1">Input int</option>
-						<option <?php if($attributeType == 2){ echo selected; }?> value="2">Input string</option>
+						<option <?php if($attributeType == 1){ echo selected; }?> value="1">Number</option>
+						<!--<option <?php if($attributeType == 2){ echo selected; }?> value="2">Input string</option>-->
 						<option <?php if($attributeType == 3){ echo selected; }?> value="3">9 point scale</option>
 						<option <?php if($attributeType == 4){ echo selected; }?> value="4">6 point scale</option>
 						<option <?php if($attributeType == 5){ echo selected; }?> value="5">Custom scale</option>
