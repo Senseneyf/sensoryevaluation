@@ -1,4 +1,4 @@
-<?php include 'session_check.php'; ?>
+<?php include 'session_check.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,32 +26,42 @@
 					<th>Title</th>
 					<th>Date created</th>
 					<th>Last modified</th>
-					<th>Author</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td><a href="/se/test_info">Cake Tenderness</a></td>
-					<td>10/31/17 11:15 AM </td>
-					<td>11/06/17 3:25 PM</td>
-					<td>William R.</</td>
-					<td><a href="#">remove</a></td>
-				</tr>
-				<tr>
-					<td><a href="/se/test_info_2">Cake Textural Acceptability</a></td>
-					<td>11/13/17 1:01 PM </td>
-					<td>11/15/17 4:32 PM</td>
-					<td>William R.</</td>
-					<td><a href="#">remove</a></td>
-				</tr>
-				<tr>
-					<td><a href="/se/test_info_3">Sports Drink Sweetness</a></td>
-					<td>11/21/17 12:01 PM </td>
-					<td>12/03/17 7:59 PM</td>
-					<td>Deanna T.</</td>
-					<td><a href="#">remove</a></td>
-				</tr>
+
+				<?php
+   					/* TODO: check if admin is using */
+
+    				/* connect to DB */
+    				$con = new mysqli('localhost','root','applechair','test');
+					if($con->connect_error){
+						exit("Database connection failed");
+					}
+	
+    				/* search db for all tests created by logged in user */
+    				$stmt = $con->prepare("SELECT *
+                          FROM Tests
+                          WHERE TestCreator= ?");
+
+    				$stmt->bind_param('s', $_SESSION['username']);
+   					$stmt->execute();
+
+    				/* returns result set from query */
+    				$result = $stmt->get_result();
+					$data = $result->fetch_all(MYSQLI_ASSOC);
+
+					$testIds = array();
+					foreach($data as $row){
+						array_push($testIds);
+						echo "<tr><td><a href=\"/se/test_edit?testId=" . $row['TestId'] .  "\">" . $row['TestName'] . "</a>" .
+							"</td><td>" . $row['DateCreated'] . "</td></tr>";
+					}				
+
+    				$con->close();
+    				$stmt->close();
+				?>
 			</tbody>
 		</table>
 		<a class="button button-create" href="/se/test_edit">Create New Test</a>
