@@ -7,9 +7,10 @@
 	$username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
 	$password = sha1(filter_var($_POST['password'], FILTER_SANITIZE_STRING));
 	$user_id = 0;
-	$email = "";			
+	$email = "";
+
 	/* Attempt to connect to db */
-    $con = new mysqli('localhost','root','password','dbname');
+    $con = new mysqli('localhost','root','blah','dbname');
 	if($con->connect_error){
 		exit("Database connection failed");
 	}
@@ -19,7 +20,7 @@
 	$stmt->execute();
 	$stmt->bind_result($user_id, $username, $password, $email);
 	$stmt->store_result();
-	/* If credentials are found, set the session username and ID */
+	/* if credentials are found, set the session username and ID */
 	if($stmt->num_rows == 1){
 		$_SESSION['username']  = $username;
 		$_SESSION['user_id']  = $user_id;
