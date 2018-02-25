@@ -13,7 +13,8 @@
        isset($_GET['sampleNumber']) &&
        isset($_GET['attributeName']) &&
        isset($_GET['startDescription']) &&
-       isset($_GET['endDescription'])){
+       isset($_GET['endDescription']) &&
+   		isset($_GET['testId'])){
     
         $testName = $_GET['testName'];
         $testDescription = $_GET['testDescription'];
@@ -23,9 +24,12 @@
         $startDescription = $_GET['startDescription'];
         $middleDescription = "to be implemented"; //TODO: add this to the html form
         $endDescription = $_GET['endDescription'];
+        $testId = $_GET['testId'];
     }else{
 		/* TODO: some redirect statement to deal with when all fields aren't set */
 	}
+
+
 
 
 	/* If there is a testId defined, then we're editing a test */
@@ -39,10 +43,9 @@
 							   ScaleType = ?,
 							   StartDescription = ?,
 							   MiddleDescription = ?,
-							   EndDescription = ?,
+							   EndDescription = ?
 							WHERE TestId = ?")){
 	
-
 		$stmt->bind_param("sssisssi",  $testName, $testDescription, 
                                    $attributeName, $scaleType, 
 								   $startDescription, $middleDescription, 

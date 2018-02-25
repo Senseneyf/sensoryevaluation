@@ -25,11 +25,13 @@
                                WHERE TestId= ?"); 
         $stmt->bind_param("i", $_GET['testId']);
         $stmt->execute();
+        $stmt->store_result();
         $stmt->bind_result($testName, $testDescription,
                            $numberOfSamples, $attributeName, 
                            $attributeType, $startDescription,
                            $middleDescription, $endDescription);
-        $stmt->store_result();
+        $stmt->fetch();
+        $stmt->close();
         $con->close();
     }
 
@@ -60,8 +62,9 @@
 				<h4>Test Creation</h4>
 				<div class="hrule"></div>
 				<form class="fixed-max-width" action='/se/test_edit_submit'><br>
+					<input type="hidden" name="testId" value=<?php echo $_GET['testId'] ?>>
 					<label for="testName">Name: </label>
-					<input class="u-full-width" type="text" name="testName" <?php echo 'value="'.htmlspecialchars($testName).'"'; ?> style="width:300px">
+					<input class="u-full-width" type="text" name="testName" <?php echo "value=\"".htmlspecialchars($testName)."\""; ?> style="width:300px">
 					<label for="testDescription">Description</label>
 					<textarea class="u-full-width" name="testDescription" style="height:115px;"><?php echo htmlspecialchars($testDescription); ?></textarea>
 					<label for="sampleNumber">Number of Samples</label>
