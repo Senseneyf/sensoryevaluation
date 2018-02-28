@@ -6,15 +6,14 @@
 	$password = "password";
 	$dbname = "myDB";
 
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	// Check connection
-	if ($conn->connect_error) {
-	    die("Connection failed: " . $conn->connect_error);
-	} 
+	/* connect to db */
+	$con = new mysqli('localhost','root','applechair','test');
+	if($con->connect_error){
+		exit("Database connection failed");
+	}
 
 	// sql to delete a record
-	$sql = "DELETE FROM user WHERE id=3";
+	$sql = "DELETE FROM Users WHERE username = '".$username"'";
 
 	if ($conn->query($sql) === TRUE) {
 	    echo "Record deleted successfully";

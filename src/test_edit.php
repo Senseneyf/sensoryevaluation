@@ -4,8 +4,8 @@
 	/* check if the testId is set 
        if set, read from db to fill forms for editing */  
 	
-	//if(isset($_GET['testId'])){
-        
+	if(isset($_GET['testId'])){
+       
         /* connect to db */
         $con = new mysqli('localhost','root','applechair','test');
 	    if($con->connect_error){
@@ -14,30 +14,26 @@
         
         /* prepare statement to read from db */
         $stmt = $con->prepare("SELECT TestName,
-                                      TestDescription,
-                                      NumberOfSamples,
-                                      AttributeName,
-                                      ScaleType,
-                                      StartDescription,
-                                      MiddleDescription,
-                                      EndDescription
-                                FROM Tests
-                                WHERE TestId= 1"); /* THIS IS SET TO TEST AN EXISTING ROW IN DB */
-        //$stmt->bind_param("i", $testId);
+                               TestDescription,
+                               NumberOfSamples,
+                               AttributeName,
+                               ScaleType,
+                               StartDescription,
+                               MiddleDescription,
+                               EndDescription
+                               FROM Tests
+                               WHERE TestId= ?"); 
+        $stmt->bind_param("i", $_GET['testId']);
         $stmt->execute();
+        $stmt->store_result();
         $stmt->bind_result($testName, $testDescription,
                            $numberOfSamples, $attributeName, 
-                           $scaleType, $startDescription,
+                           $attributeType, $startDescription,
                            $middleDescription, $endDescription);
-        $stmt->store_result();
+        $stmt->fetch();
+        $stmt->close();
         $con->close();
-		$stmt->close();
-    //}
-
-        /* set php variables */
-
-	/* write to DB */
-	/* read from db, set php variables */
+    }
 
 ?>
 <!DOCTYPE html>
@@ -65,9 +61,10 @@
 				<fieldset>
 				<h4>Test Creation</h4>
 				<div class="hrule"></div>
-				<form class="fixed-max-width"><br>
+				<form class="fixed-max-width" action='/se/test_edit_submit'><br>
+					<input type="hidden" name="testId" value=<?php echo $_GET['testId'] ?>>
 					<label for="testName">Name: </label>
-					<input class="u-full-width" type="text" name="testName" <?php echo 'value="'.htmlspecialchars($testName).'"'; ?> style="width:300px">
+					<input class="u-full-width" type="text" name="testName" <?php echo "value=\"".htmlspecialchars($testName)."\""; ?> style="width:300px">
 					<label for="testDescription">Description</label>
 					<textarea class="u-full-width" name="testDescription" style="height:115px;"><?php echo htmlspecialchars($testDescription); ?></textarea>
 					<label for="sampleNumber">Number of Samples</label>
@@ -83,17 +80,14 @@
 					<label for="attributes">Attributes</label>
 					<div>Name: <input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px"></div>
 					<div>Type: <select name="attributeType">
-						<option <?php if($attributeType == 1){ echo selected; }?> value="1">Input int</option>
-						<option <?php if($attributeType == 2){ echo selected; }?> value="2">Input string</option>
-						<option <?php if($attributeType == 3){ echo selected; }?> value="3">9 point scale</option>
-						<option <?php if($attributeType == 4){ echo selected; }?> value="4">6 point scale</option>
-						<option <?php if($attributeType == 5){ echo selected; }?> value="5">Custom scale</option>
+						<option <?php if($attributeType == 1){ echo selected; }?> value="3">9 point scale</option>
+						<option <?php if($attributeType == 2){ echo selected; }?> value="4">6 point scale</option>
+						<option <?php if($attributeType == 3){ echo selected; }?> value="5">Unstructured scale</option>
 					</select></div>
-					<div>Start descriptor: <input class="u-full-width" type="text" name="startDesription" <?php echo 'value="'.htmlspecialchars($startDescription).'"'; ?> style="width:150px"></div>
+					<div>Start descriptor: <input class="u-full-width" type="text" name="startDescription" <?php echo 'value="'.htmlspecialchars($startDescription).'"'; ?> style="width:150px"></div>
 					<div>End descriptor: <input class="u-full-width" type="text" name="endDescription" <?php echo 'value="'.htmlspecialchars($endDescription).'"'; ?> style="width:150px"></div>
-					<div><a href="#">Add new attribute</a></div>
 					</fieldset>
-					<br><input class="button-secondary" method="post" action="/se/test_edit_submit" type="submit" value="Submit"> <input class="button-secondary" method="post" type="submit" value="Cancel">
+					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <input class="button-secondary" method="post" type="submit" value="Cancel">
 				</form>
 				</fieldset>
 			</div>

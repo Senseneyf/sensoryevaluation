@@ -6,51 +6,76 @@
 		exit("Database connection failed");
 	}
 
-	/* TODO: making this work? being able to get the html elements from the page and actually applying them
-
-    $testId = $_POST['testId'];
-    $testName = $_POST['testName'];
-    $testDescription = $_POST['testDescription'];
-    $numberOfSamples = $_POST['sampleNumber'];
-    $attributeName = $_POST['attributeName'];
-    $scaleType = $_POST['attributeType'];
-    $startDescription = $_POST['startDescripton'];
-    $middleDescription = "to be implemented";
-    $endDescription = $_POST['endDescription'];
-
-    /* TODO: conditional to choose if we're updating a test or submitting a new one*/
+	/* Getting fields from html and setting them */
+    if(isset($_GET['testName']) &&
+       isset($_GET['testDescription']) &&
+       isset($_GET['attributeType']) &&
+       isset($_GET['sampleNumber']) &&
+       isset($_GET['attributeName']) &&
+       isset($_GET['startDescription']) &&
+       isset($_GET['endDescription']) &&
+   		isset($_GET['testId'])){
     
-    /* Write to DB */
-    $stmt = $con->prepare("INSERT INTO Tests 
-                           VALUES (?,?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("ssisissss", $testName, $testDescription, 
-                                   $numberOfSamples, $attributeName,
-                                   $scaleType, $startDescription
-                                   $middleDescription, $endDescription);
+        $testName = $_GET['testName'];
+        $testDescription = $_GET['testDescription'];
+        $scaleType = $_GET['attributeType'];
+        $numberOfSamples = $_GET['sampleNumber'];
+        $attributeName = $_GET['attributeName'];
+        $startDescription = $_GET['startDescription'];
+        $middleDescription = "to be implemented"; //TODO: add this to the html form
+        $endDescription = $_GET['endDescription'];
+        $testId = $_GET['testId'];
+    }else{
+		/* TODO: some redirect statement to deal with when all fields aren't set */
+	}
 
-	/* Update row in DB */
-	/* 
-	$stmt = $con->prepare("UPDATE Tests
+
+
+
+	/* If there is a testId defined, then we're editing a test */
+    if(isset($_GET['testId'])){
+
+		/* Update row/test in DB (FOR TEST EDITING) */ 
+		if($stmt = $con->prepare("UPDATE Tests
 						   SET TestName = ?,
 							   TestDescription = ?,
 							   AttributeName = ?,
 							   ScaleType = ?,
 							   StartDescription = ?,
 							   MiddleDescription = ?,
-							   EndDescription = ?,
-							WHERE TestId = ?");
-
-	$stmt->bind_param("sssisssi",  $testName, $testDescription, 
+							   EndDescription = ?
+							WHERE TestId = ?")){
+	
+		$stmt->bind_param("sssisssi",  $testName, $testDescription, 
                                    $attributeName, $scaleType, 
 								   $startDescription, $middleDescription, 
 								   $endDescription, $testId);
+		}else{
+			exit($con->error);
+		}
 
-	*/
+	/*Otherwise, we are creating a new test */
+	}else{
+
+		/* Creating a row/test in DB */
+		if($stmt = $con->prepare("INSERT INTO Tests (TestName, TestDescription, NumberOfSamples, AttributeName,
+												ScaleType, StartDescription, MiddleDescription, EndDescription)
+							 	VALUES (?,?,?,?,?,?,?,?)")){
+    	$stmt->bind_param("ssisssss", $testName, $testDescription, 
+                                   $numberOfSamples, $attributeName,
+                                   $scaleType, $startDescription,
+                                   $middleDescription, $endDescription);
+	
+    	}else{
+			exit($con->error);
+		}
+
+	}
     
     $stmt->execute();
     $stmt->close();
-
-	$stmt = $con->prepare();
 	
     $con->close();
+
+	header("Location: /se/index"); 
 ?>
