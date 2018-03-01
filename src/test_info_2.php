@@ -20,15 +20,15 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="/se/">My Tests</a>
-		<a href="/se/test_edit"> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
+		<a href="">My Tests</a>
+		<a href="/test_edit"> + </a>
+		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/logout" >Logout</a>'; } ?></div>
 	</div>
 	<div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
-				<a class="button" style="float:right;" href= "/se/test_edit?testName=Cake+Textural+Acceptability&testDiscription=Exceptional+quality+cakes+should+have+a+fine+and+even+textural+appearance%2C+thin+cell+walls%2C+small+air+cells%2C+and+have+a+soft+velvety+texture.+Evaluate+the+following+cake+samples+using+a+9-point+scale+where%3A+%0D%0A1+%3D+poor+textural+quality+cake%0D%0A5+%3D+acceptable+textural+quality+cake%0D%0A9+%3D+exceptional+textural+quality+cake.&sampleNumber=4&attributeName=Acceptability+Score&attributeType=1&attributeStartD=&attributeEndD=#">Edit</a>
+				<a class="button" style="float:right;" href= "/test_edit?testName=Cake+Textural+Acceptability&testDiscription=Exceptional+quality+cakes+should+have+a+fine+and+even+textural+appearance%2C+thin+cell+walls%2C+small+air+cells%2C+and+have+a+soft+velvety+texture.+Evaluate+the+following+cake+samples+using+a+9-point+scale+where%3A+%0D%0A1+%3D+poor+textural+quality+cake%0D%0A5+%3D+acceptable+textural+quality+cake%0D%0A9+%3D+exceptional+textural+quality+cake.&sampleNumber=4&attributeName=Acceptability+Score&attributeType=1&attributeStartD=&attributeEndD=#">Edit</a>
 				<h4>Cake Textural Acceptability</h4>
 				<div class="hrule"></div>
 				<div><br><h5>Judgment Results</h5>

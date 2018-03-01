@@ -14,7 +14,7 @@
 		exit("Database connection failed");
 	}
 	/* Query db with prepared statment */
-	$stmt = $con->prepare("SELECT id, username, password, email FROM Users WHERE username= ? and password= ? LIMIT 1");
+	$stmt = $con->prepare("SELECT id, username, password FROM Users WHERE username= ? and password= ? LIMIT 1");
 	$stmt->bind_param("ss", $username, $password);
 	$stmt->execute();
 	$stmt->bind_result($user_id, $username, $password, $email);
@@ -25,7 +25,7 @@
 		$_SESSION['username']  = $username;
 		$_SESSION['user_id']  = $user_id;
 		/* redirect to index */
-		header("Location: /se/");
+		header("Location: /index");
 		exit();
 	}
 	$stmt->close();

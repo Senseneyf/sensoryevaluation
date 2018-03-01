@@ -15,11 +15,11 @@
   </div>
   <div class="container">
 	<div class="row">
-		<div class="tweleve columns top-offset">
+		<div class="twelve columns top-offset">
 			<div class="six columns offset-by-three">
 			<fieldset>
 				<p class="u-full-width">Please login to continue:</p>
-				<form class="login" method="post" action="/se/login_submit">
+				<form class="login" method="post" action="login_submit">
 					<label for="userNameInput">Username:</label>
 					<input class="u-full-width"  id="username" name="username" value="" type="text" maxlength="100">
 					<label for="passwordInput">Password:</label>

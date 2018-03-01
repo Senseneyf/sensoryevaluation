@@ -22,13 +22,13 @@
 	<div class="navBar">
 		<a href="/se/">My Tests</a>
 		<a href="/se/test_edit"> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
+		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/logout" >Logout</a>'; } ?></div>
 	</div>
 	<div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
-			<a class="button" style="float:right;" href="/se/test_edit?testName=Sports+Drink+Sweetness&testDiscription=Evaluate+the+following+sports+drink+samples+for+tenderness+using+the+following+9+point+scale+by+clicking+or+pressing+on+the+bars+to+mark+your+sweetness+rating.&sampleNumber=4&attributeName=Sweetness&attributeType=5&attributeStartD=Sweet&attributeEndD=Bitter#">Edit</a>
+			<a class="button" style="float:right;" href="/test_edit?testName=Sports+Drink+Sweetness&testDiscription=Evaluate+the+following+sports+drink+samples+for+tenderness+using+the+following+9+point+scale+by+clicking+or+pressing+on+the+bars+to+mark+your+sweetness+rating.&sampleNumber=4&attributeName=Sweetness&attributeType=5&attributeStartD=Sweet&attributeEndD=Bitter#">Edit</a>
 			<h4>Sports Drink Sweetness</h4>
 				<div class="hrule"></div>
 				<div><br><h5>Judgment Results</h5>

@@ -20,15 +20,15 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="/se/">My Tests</a>
-		<a href="/se/test_edit"> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
+		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
+		<a href="/test_edit"> + </a>
+		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
 	</div>
 	<div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
-				<a class="button" style="float:right;" href="/se/test_edit?testName=Cake+Tenderness&testDiscription=Evaluate+the+following+cake+samples+for+tenderness+using+the+following+unstructured+scale+clicking+or+pressing+your+finger+on+the+bars+to+mark+your+tenderness+rating.&sampleNumber=6&attributeName=Tenderness&attributeType=5&attributeStartD=Firm&attributeEndD=Very+soft#">Edit</a>
+				<a class="button" style="float:right;" href="/test_edit?testName=Cake+Tenderness&testDiscription=Evaluate+the+following+cake+samples+for+tenderness+using+the+following+unstructured+scale+clicking+or+pressing+your+finger+on+the+bars+to+mark+your+tenderness+rating.&sampleNumber=6&attributeName=Tenderness&attributeType=5&attributeStartD=Firm&attributeEndD=Very+soft#">Edit</a>
 				<h4>Cake Tenderness</h4>
 				<div class="hrule"></div>
 				<div><br><h5>Judgment Results</h5>

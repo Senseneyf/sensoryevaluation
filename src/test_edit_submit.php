@@ -1,81 +1,73 @@
 <?php
-
+	session_start();
 	/* Attempt to connect to db */
     $con = new mysqli('localhost','root','applechair','test');
 	if($con->connect_error){
 		exit("Database connection failed");
 	}
 
-	/* Getting fields from html and setting them */
-    if(isset($_GET['testName']) &&
-       isset($_GET['testDescription']) &&
-       isset($_GET['attributeType']) &&
-       isset($_GET['sampleNumber']) &&
-       isset($_GET['attributeName']) &&
-       isset($_GET['startDescription']) &&
-       isset($_GET['endDescription']) &&
-   		isset($_GET['testId'])){
-    
-        $testName = $_GET['testName'];
-        $testDescription = $_GET['testDescription'];
-        $scaleType = $_GET['attributeType'];
-        $numberOfSamples = $_GET['sampleNumber'];
-        $attributeName = $_GET['attributeName'];
-        $startDescription = $_GET['startDescription'];
-        $middleDescription = "to be implemented"; //TODO: add this to the html form
-        $endDescription = $_GET['endDescription'];
-        $testId = $_GET['testId'];
-    }else{
-		/* TODO: some redirect statement to deal with when all fields aren't set */
-	}
-
-
-
+	/* Getting fields from html and setting them  */
+	if(isset($_GET['testName'])) { $testName = $_GET['testName']; }
+	if(isset($_GET['testDescription'])) { $testDescription = $_GET['testDescription']; }
+	if(isset($_GET['attributeName'])) { $attributeName = $_GET['attributeName']; }	
+	if(isset($_GET['attributeType'])) { $scaleType = $_GET['attributeType']; }
+	if(isset($_GET['sampleNumber'])) { $numberOfSamples = $_GET['sampleNumber']; }
+	if(isset($_GET['startDescription'])) { $startDescription = $_GET['startDescription']; }
+	if(isset($_GET['middleDescription'])) { $middleDescription = "to be implemented"; }//TODO: add this to the html form
+	if(isset($_GET['endDescription'])) { $endDescription = $_GET['endDescription']; }
+	if(isset($_GET['testType'])) { $testType = $_GET['testType']; }
+	if(isset($_GET['testId'])) { $testId = $_GET['testId']; }
+	echo $testName . $testDescription . " " . $attributeName . " " .  $scaleType . " " .  $numberOfSamples . " " .  $startDescription . " " .  $middleDescription . " " .  $endDescription . " " .  $testType . " " .  $testId;
 
 	/* If there is a testId defined, then we're editing a test */
     if(isset($_GET['testId'])){
-
+		//printf("testId is set in get");
+		//exit(0);
 		/* Update row/test in DB (FOR TEST EDITING) */ 
 		if($stmt = $con->prepare("UPDATE Tests
-						   SET TestName = ?,
-							   TestDescription = ?,
-							   AttributeName = ?,
-							   ScaleType = ?,
-							   StartDescription = ?,
-							   MiddleDescription = ?,
-							   EndDescription = ?
+							SET TestName = ?,
+							TestDescription = ?,
+							NumberOfSamples = ?,
+							AttributeName = ?,
+							ScaleType = ?,
+							StartDescription = ?,
+							MiddleDescription = ?,
+							EndDescription = ?,
+							TestCreator = ?,
+							TestType = ?
 							WHERE TestId = ?")){
 	
-		$stmt->bind_param("sssisssi",  $testName, $testDescription, 
-                                   $attributeName, $scaleType, 
-								   $startDescription, $middleDescription, 
-								   $endDescription, $testId);
+		$stmt->bind_param("ssisissssii", $testName, $testDescription, 
+                                   $numberOfSamples, $attributeName,
+                                   $scaleType, $startDescription,
+                                   $middleDescription, $endDescription, $_SESSION['username'], $testType, $testId);
 		}else{
 			exit($con->error);
 		}
 
 	/*Otherwise, we are creating a new test */
 	}else{
-
+		//printf("testId isn't set in get");
+		//exit(0);
 		/* Creating a row/test in DB */
 		if($stmt = $con->prepare("INSERT INTO Tests (TestName, TestDescription, NumberOfSamples, AttributeName,
-												ScaleType, StartDescription, MiddleDescription, EndDescription)
-							 	VALUES (?,?,?,?,?,?,?,?)")){
-    	$stmt->bind_param("ssisssss", $testName, $testDescription, 
+												ScaleType, StartDescription, MiddleDescription, EndDescription, TestCreator, TestType)
+							 	VALUES (?,?,?,?,?,?,?,?,?,?)")){
+    	$stmt->bind_param("ssisissssi", $testName, $testDescription, 
                                    $numberOfSamples, $attributeName,
                                    $scaleType, $startDescription,
-                                   $middleDescription, $endDescription);
+                                   $middleDescription, $endDescription, $_SESSION['username'], $testType);
 	
     	}else{
 			exit($con->error);
 		}
 
 	}
-    
+	
+	//execute test creation/retrieval
     $stmt->execute();
     $stmt->close();
-	
     $con->close();
 
-	header("Location: /se/index"); 
+	header("Location: /index"); 
 ?>

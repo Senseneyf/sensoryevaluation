@@ -13,9 +13,9 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="/se/">My Tests</a>
+		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
 		<a data-active href=""> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a data-active href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
+		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
 	</div>
 	<div class="container">
 	<div class="row">

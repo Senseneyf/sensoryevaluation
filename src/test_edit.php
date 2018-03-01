@@ -20,7 +20,8 @@
                                ScaleType,
                                StartDescription,
                                MiddleDescription,
-                               EndDescription
+                               EndDescription,
+							   TestType
                                FROM Tests
                                WHERE TestId= ?"); 
         $stmt->bind_param("i", $_GET['testId']);
@@ -29,12 +30,17 @@
         $stmt->bind_result($testName, $testDescription,
                            $numberOfSamples, $attributeName, 
                            $attributeType, $startDescription,
-                           $middleDescription, $endDescription);
+                           $middleDescription, $endDescription, $testType);
         $stmt->fetch();
         $stmt->close();
         $con->close();
     }
-
+	
+	//if the test type is set in the url, set the php var to its value
+	if(isset($_GET['testType'])){
+		$testType = $_GET['testType'];
+	}
+	//otherwise set it a default value
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,23 +56,44 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="/se/">My Tests</a>
-		<a data-active href="/se/test_edit"> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/se/logout" >Logout</a>'; } ?></div>
+		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
+		<a data-active href="/test_type"> + </a>
+		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/logout" >Logout</a>'; } ?></div>
 	</div>
 	<div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
 				<fieldset>
-				<h4>Test Creation</h4>
+				<h4>Test Creation: 
+				<?php
+				//print the type of test
+				switch($testType){
+				case 1: echo "Intensity"; break; 
+				case 2: echo "Duo-Trio"; break;
+				case 3: echo "Triangle"; break;
+				}
+				?></h4>
 				<div class="hrule"></div>
-				<form class="fixed-max-width" action='/se/test_edit_submit'><br>
-					<input type="hidden" name="testId" value=<?php echo $_GET['testId'] ?>>
+				<form class="fixed-max-width" action='/test_edit_submit'><br>
+					<?php
+					//Hidden input fields to set test id and test type when the test is submitted
+					if(isset($_GET['testId'])) { 
+						echo"<input type='hidden' name='testId' value='". $_GET['testId'] . "'>"; 
+					}
+					//if test type is set by the url set the field to that value
+					if(isset($_GET['testType'])) { 
+						echo"<input type='hidden' name='testType' value='". $_GET['testType'] . "'>"; 
+					}
+					//otherwise set it from the db query
+					else{
+						echo"<input type='hidden' name='testType' value='". $testType . "'>";
+					}
+					?>
 					<label for="testName">Name: </label>
-					<input class="u-full-width" type="text" name="testName" <?php echo "value=\"".htmlspecialchars($testName)."\""; ?> style="width:300px">
+					<input class="u-full-width" type="text" name="testName" <?php echo "value=\"".htmlspecialchars($testName)."\""; ?> style="width:300px"  required>
 					<label for="testDescription">Description</label>
-					<textarea class="u-full-width" name="testDescription" style="height:115px;"><?php echo htmlspecialchars($testDescription); ?></textarea>
+					<textarea class="u-full-width" name="testDescription" style="height:115px;" required><?php echo htmlspecialchars($testDescription); ?></textarea>
 					<label for="sampleNumber">Number of Samples</label>
 					<select name="sampleNumber">
 						<option <?php if($numberOfSamples == 1){ echo selected; }?> value="1">1</option>
@@ -76,18 +103,21 @@
 						<option <?php if($numberOfSamples == 5){ echo selected; }?> value="5">5</option>
 						<option <?php if($numberOfSamples == 6){ echo selected; }?> value="6">6</option>
 					</select>
-					<fieldset>
+					
+					<?php if($testType == 1): ?>
+					<fieldset>					
 					<label for="attributes">Attributes</label>
-					<div>Name: <input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px"></div>
+					<div>Name: <input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px" required></div>
 					<div>Type: <select name="attributeType">
-						<option <?php if($attributeType == 1){ echo selected; }?> value="3">9 point scale</option>
-						<option <?php if($attributeType == 2){ echo selected; }?> value="4">6 point scale</option>
-						<option <?php if($attributeType == 3){ echo selected; }?> value="5">Unstructured scale</option>
+						<option <?php if($attributeType == 1){ echo selected; }?> value="1">9 point scale</option>
+						<option <?php if($attributeType == 2){ echo selected; }?> value="2">6 point scale</option>
+						<option <?php if($attributeType == 3){ echo selected; }?> value="3">Unstructured scale</option>
 					</select></div>
 					<div>Start descriptor: <input class="u-full-width" type="text" name="startDescription" <?php echo 'value="'.htmlspecialchars($startDescription).'"'; ?> style="width:150px"></div>
 					<div>End descriptor: <input class="u-full-width" type="text" name="endDescription" <?php echo 'value="'.htmlspecialchars($endDescription).'"'; ?> style="width:150px"></div>
 					</fieldset>
-					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <input class="button-secondary" method="post" type="submit" value="Cancel">
+					<?php endif; ?>
+					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>" class='button'>Cancel</a>
 				</form>
 				</fieldset>
 			</div>

@@ -1,9 +1,8 @@
-<?php include 'session_check.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>My Tests - Sensory Evaluation</title>
+  <title>Test Prep - Sensory Evaluation</title>
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
@@ -12,24 +11,12 @@
   <link rel="stylesheet" href="css/skeleton.css">
 </head>
 <body>
-	<div class="navBar">
-		<a data-active href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-		<a href="/test_type"> + </a>
-		<div class="navLogin">
-		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
-	</div>
-	<div class="container">
+  <div class="navBar">
+  </div>
+  <div class="container">
 	<div class="row">
-	<div class="five column top-offset">
-		<table class="u-full-width">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Last Modified</th>
-					<th><?php if($_SESSION['username'] == 'admin') { echo "User"; } ?></th>
-					<th></th>
-				</tr>
-			</thead>
+		<div class="tweleve columns top-offset">
+			<div class="six columns offset-by-three">
 			<tbody>
 
 				<?php
@@ -89,9 +76,11 @@
     				$stmt->close();
 				?>
 			</tbody>
-		</table>
-		<a class="button button-create" href="/test_type">Create New Test</a>
-  </div>
+
+			
+			</div>
+		</div>
+    </div>
   </div>
 </body>
 </html>
