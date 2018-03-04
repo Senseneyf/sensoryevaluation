@@ -21,9 +21,9 @@
 				<p class="u-full-width">Please login to continue:</p>
 				<form class="login" method="post" action="login_submit">
 					<label for="userNameInput">Username:</label>
-					<input class="u-full-width"  id="username" name="username" value="" type="text" maxlength="100">
+					<input class="u-full-width"  id="username" name="username" value="" type="text" required maxlength="100">
 					<label for="passwordInput">Password:</label>
-					<input class="u-full-width"  id="password" name="password" value="" type="password" maxlength="16" placeholder="">
+					<input class="u-full-width"  id="password" name="password" value="" type="password" required maxlength="16" placeholder="">
 					<br><br><input class="button-secondary" type="submit" value="Submit"/>
 				</form>
 			</fieldset>
