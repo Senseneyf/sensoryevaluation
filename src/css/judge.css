@@ -1,0 +1,55 @@
+.testAttribute{
+	
+}
+.testAttribute:nth-child(even){
+	background-color: #eee;
+	width:100%;
+}
+.testAttribute:nth-child(odd){
+	background-color: #fff;
+	width:100%;
+}
+Input.slider{
+	width:100%;
+}
+Input.txtbox{
+	width:8em;
+}
+.cen{
+	width:250px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.container{
+	width:100%;
+}
+input[type=range]{
+-webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+width: 300px;
+height: 5px;
+background: #ddd;
+border: none;
+border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	border: none;
+	height: 16px;
+	width: 16px;
+	border-radius: 50%;
+	background: blue;
+	margin-top: -4px;
+}
+
+input[type=range]:focus {
+	outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: #ccc;
+}

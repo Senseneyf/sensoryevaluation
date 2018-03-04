@@ -1,0 +1,44 @@
+/* makes skeleton styling print friendly  */
+
+.column,
+.columns {
+    width: 100% !important;
+    margin-left: 0% !important;
+	margin-top: 0% !important;
+    page-break-inside: avoid;
+}
+
+.container{
+	width: 100% !important;
+    margin-left: 0% !important;
+	margin-top: 0% !important;
+}
+
+navBar {
+    display: none !important;
+	height:0% !important;
+}
+
+main div.row {
+    margin-top: 0% !important;
+}
+
+
+a,a:visited,a:active {
+    display:none !important;
+}
+
+th {
+	display:none !important
+}
+
+td {
+  max-width:150px;
+  padding: 0px 0px !important;
+  text-align: left;
+  font-size: 1.2em;
+  border-left: 0px solid black !important;
+  border-right: 0px solid black !important;
+  border-bottom: 0px solid black !important;
+  border-bottom: 0px solid black !important;
+  }
