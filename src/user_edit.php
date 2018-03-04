@@ -1,5 +1,9 @@
 <?php
 	include 'session_check.php';
+	/* admin-only access */
+	if(strcmp($_SESSION['username'], "admin") != 0){
+		header("Location: /index");
+	}
 
 	
 	/* for error logging with MYSQLi */
@@ -22,36 +26,51 @@
 
 		/* if there are no users found */
 		if ($result->num_rows === 0){
+			//if this happens, immediately reinsert admin !!!
 			exit("ERROR NO USERS FOUND");
 		}
 
 		/* display table */
 		foreach($data as $row){
-			array_push($tableList);
+			//array_push($tableList);
 			echo "<tr>";
-			echo "<td>" . $row['username'] . "</td>";						//username
-			echo "<td><button onclick=\"edit_password('" . $row['username'] . "')\">Edit Password</button></td>";	//edit pass button
-			echo "<td><button onclick=\"delete_user('" . $row['username'] . "')\">Delete User</button></td>";		//remove user button
+			echo "<td>" . $row['username'] . "</td>";																//username
+			echo "<td><a href='/password_edit?user=" . $row['username'] . "' class='button'>Change Password </a></td>";	//edit pass button
+			/* remove user button shows up for every user except admin */
+			if (strcmp($row['username'],"admin") != 0){
+				echo "<td><a href='?mode=delete&user=" . $row['username'] . "' class='button'>Delete User </a></td>";	//remove user button
+			}
 			echo "</tr>";
 		}	
 
 		$usersList->close();
 	}
 
-	/* allows for the changing of a specific user's password */
-	function edit_password($username){
-		/* prepare statement for changing password */
-
-
-	}
-
 	/* removes user from database */
 	function delete_user($username){
+		/* connect to db */
+		$con = new mysqli('localhost','root','applechair','test');
+		if($con->connect_error){
+			exit("Database connection failed");
+		}
+
+		/* if user is admin, deny */
+		if ($username == "admin"){
+			exit("Please don't do that.");
+		}
+
 		/* prepare statement for deleting user */
 		$target = $con->prepare("DELETE FROM Users WHERE username = ?");
-		$target->bind_param("i", $username);
+		$target->bind_param("s", $username);
 		$target->execute();
 		$target->close();
+	}
+
+	if(isset($_GET['mode']) && !empty($_GET['user'])){
+
+		if($_GET['mode'] == 'delete'){
+			delete_user($_GET['user']);
+		}
 	}
 ?>
 
@@ -69,10 +88,7 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-		<a data-active href="/test_type"> + </a>
-		<div class="navLogin">
-		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
+		<?php include 'navbar.php';?>
 	</div>
 	<div class="container">
 	<div class="row">
@@ -88,6 +104,7 @@
 				</thead>
 				<tbody>
 				<?php
+					/* list out every user in the database, and give contextual controls for editing them */
 					list_users();
 				?>
 				</tbody>

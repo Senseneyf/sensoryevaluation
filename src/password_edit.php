@@ -26,9 +26,10 @@
 	<div class="row">
 		<div class="twelve columns top-offset">
 			<div class="six columns offset-by-three">
-				<form method="post" action="user_create.php" name="registerform" id="registerform">
+				<?php echo "<p>Changing password for: " . $_GET['user'] . "</p>"; ?>
+				<form method="post" action="password_edit.php" name="registerform" id="registerform">
 				<fieldset>
-				<label for="username">Username:</label><input type="text" name="username" id="username" required><br />
+				<input hidden name="username" value="<?php echo $_GET['user']; ?>">
 				<label for="password">Password:</label><input type="password" name="password" id="password" required><br />
 				<label for="password2">Re-enter Password:</label><input type="password" name="password2" id="password2" required><br />
 				<input type="submit" name="register" id="register" value="Register" />
@@ -47,57 +48,50 @@
 		exit("Database connection failed");
 	}
 
-	/* create new user account if valid input recieved*/
-	if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['password2'])){
-
-		$username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+	/* change the password for this user */
+	if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['password2'])){
+		$username = $_POST['username'];
 		$password = sha1(filter_var($_POST['password'], FILTER_SANITIZE_STRING));
 		$password2 = sha1(filter_var($_POST['password2'], FILTER_SANITIZE_STRING));
 
 		/* check if passwords match */
 		if (strcmp($password,$password2) != 0) {
-			echo "<h1>Error</h1>";
-			echo "<p>The passwords entered do not match, please try again</p>";
+			echo '<script> alert("passwords do not match, try again"); </script>';
 			exit();
 		}
 
-		/* check if username already exists using a prepared statment */
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 		try{
 			/* prepare statement */
-			$checkusername = $con->prepare("SELECT 1 FROM Users WHERE username = ? LIMIT 1");
-			$checkusername->bind_param("s", $username);
-			$checkusername->bind_result($exists);
-			$checkusername->execute();
-			$checkusername->fetch();
+			$checkpass = $con->prepare("SELECT 1 FROM Users WHERE username = ? AND password = ?");
+			$checkpass->bind_param("ss", $username, $password);
+			$checkpass->bind_result($exists);
+			$checkpass->execute();
+			$checkpass->fetch();
 
 			/* if the query has found a match of the username */
 			if($exists){
-				$checkusername->close();
-				exit("Sorry, that username is taken. Please go back and try again");
+				$checkpass->close();
+				echo '<script> alert("Sorry, but that password is the same as the current, please try again"); </script>';
 			}
 
 			/* all conditions met - insert into db*/
 			else{
-				$checkusername->close();
+				$checkpass->close();
 				/* prepare statement for insertion */
-				$registerquery = $con->prepare("INSERT 
-					INTO Users 
-					(username, password) 
-					VALUES ('$username','$password')");
+				$registerquery = $con->prepare("UPDATE Users SET password = ? WHERE username = ?");
+				$registerquery->bind_param("ss", $password, $username);
 
-				/* attempt insertion into db */
+				/* attempt update */
 				if($registerquery->execute()){
-					$registerquery->close();
-					echo "<p>Account created successfully</p>";
-					header("Location: /user_edit");
+					//$registerquery->close();
+					echo '<script> alert("Password change successful!"); </script>';
 				}
 				
 				else{
 					$registerquery->close();
-					echo "<h1>Error</h1>";
-					echo "<p>Sorry, account registration failed</p>";
+					echo '<script> alert("Error: Unable to change password"); </script>';
 					exit("Registration error");
 				}
 			}
