@@ -1,4 +1,5 @@
 <?php include 'session_check.php';?>
+<?php if($_SERVER['REQUEST_URI'] === '/') header("Location: /index") ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +14,13 @@
 </head>
 <body>
 	<div class="navBar">
-		<a data-active href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-		<a href="/test_type"> + </a>
-		<div class="navLogin">
-		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
+		<?php include 'navbar.php';?>
 	</div>
 	<div class="container">
 	<div class="row">
 	<div class="five column top-offset">
+		<h4>My Tests</h4>
+		<div class="hrule"></div>
 		<table class="u-full-width">
 			<thead>
 				<tr>
@@ -64,10 +64,10 @@
 						foreach($data as $row){
 							array_push($testIds);
 							echo "<tr>";
-							echo "<td><a href=\"/test_prep?testId=" . $row['TestId'] .  "\">" . $row['TestName'] . "</a></td>";
+							echo "<td><a href=\"/test_info?testId=" . $row['TestId'] .  "\">" . $row['TestName'] . "</a></td>";
 							echo "<td>" . $row['DateCreated'] . "</td>";
 							echo "<td>" . $row['TestCreator'] . "</td>";
-							echo "<td><a href=\"/test_edit?testId=" . $row['TestId'] . "\">". "Edit</a>	|	";
+							echo "<td><a href=\"/test_edit?testId=" . $row['TestId'] . "\">". "Edit</a>	&emsp;";
 							echo "<a href=\"/test_delete?testId=" . $row['TestId']. "\">". "Delete</a></td>";
 							echo "</tr>";
 						}	
@@ -79,7 +79,7 @@
 							echo "<tr>";
 							echo "<td><a href=\"/test_prep?testId=" . $row['TestId'] .  "\">" . $row['TestName'] . "</a></td>";
 							echo "<td>" . $row['DateCreated'] . "</td>";
-							echo "<td><a href=\"/test_edit?testId=" . $row['TestId'] . "\">". "Edit</a>	|	";
+							echo "<td><a href=\"/test_edit?testId=" . $row['TestId'] . "\">". "Edit</a>	&emsp;";
 							echo "<a href=\"/test_delete?testId=" . $row['TestId']. "\">". "Delete</a></td>";
 							echo "</tr>";
 						}

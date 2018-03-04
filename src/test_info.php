@@ -1,4 +1,55 @@
 <?php include 'session_check.php'; ?>
+<?php
+	if(isset($_GET['testId'])){
+		/* connect to db */
+		$con = new mysqli('localhost','root','applechair','test');
+		if($con->connect_error){
+			exit("Database connection failed");
+		}
+		
+		/* prepare statement to read from db */
+		$stmt = $con->prepare("SELECT TestName,
+							   TestDescription,
+							   NumberOfSamples,
+							   AttributeName,
+							   ScaleType,
+							   StartDescription,
+							   MiddleDescription,
+							   EndDescription,
+							   TestType
+							   FROM Tests
+							   WHERE TestId= ?"); 
+		$stmt->bind_param("i", $_GET['testId']);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($testName, $testDescription,
+						   $numberOfSamples, $attributeName, 
+						   $attributeType, $startDescription,
+						   $middleDescription, $endDescription, $testType);
+		$stmt->fetch();
+		
+		$stmt2 = $con->prepare("SELECT TimeStamp,
+					   A,
+					   B,
+					   C,
+					   D,
+					   E,
+					   F
+					   FROM Results
+					   WHERE TestId= ?");
+		
+		$stmt2->bind_param("i", $_GET['testId']);
+		$stmt2->execute();
+		$result = $stmt2->get_result();
+		$data = $result->fetch_all(MYSQLI_ASSOC);		
+		
+		$stmt->close();
+		$stmt2->close();
+		$con->close();
+	}
+	
+	
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,66 +71,60 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-		<a href="/test_edit"> + </a>
-		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
+		<?php include 'navbar.php';?>
 	</div>
 	<div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
-				<a class="button" style="float:right;" href="/test_edit?testName=Cake+Tenderness&testDiscription=Evaluate+the+following+cake+samples+for+tenderness+using+the+following+unstructured+scale+clicking+or+pressing+your+finger+on+the+bars+to+mark+your+tenderness+rating.&sampleNumber=6&attributeName=Tenderness&attributeType=5&attributeStartD=Firm&attributeEndD=Very+soft#">Edit</a>
-				<h4>Cake Tenderness</h4>
+				<a class="button" style="float:right;" href="<?php echo "/judge?testId=" . $_GET['testId'] ?>">Judgment</a>
+				<h4><?php if(isset($testName))echo $testName; ?></h4>
 				<div class="hrule"></div>
 				<div><br><h5>Judgment Results</h5>
 				<table class="u-full-width">
 					<thead>
 						<tr>
 							<th>Date/Time (DEC)</th>
-							<th>Judge</th>
-							<th>S1</th>
-							<th>S2</th>
-							<th>S3</th>
-							<th>S4</th>
-							<th>S5</th>
-							<th>S6</th>
+							<?php
+								for($i=1 ; $i < $numberOfSamples+1 ; $i++){
+									switch($i){
+										case 1: $letter = 'A'; break;
+										case 2: $letter = 'B'; break;
+										case 3: $letter = 'C'; break;
+										case 4: $letter = 'D'; break;
+										case 5: $letter = 'E'; break;
+										case 6: $letter = 'F';; break;
+									}
+									echo "<th>". $letter ."</th>";
+								}
+							?>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>11/26/17 3:03 PM</td>
-							<td>Kathryn J.</td>
-							<td>9</td>
-							<td>6</td>
-							<td>6</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-						</tr>
-						<tr>
-							<td>11/26/17 2:53 PM</td>
-							<td>James K.</td>
-							<td>7</td>
-							<td>8</td>
-							<td>4</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-						</tr>
-						<tr>
-							<td>11/25/17 7:16 PM</td>
-							<td>Leonard M.</td>
-							<td>5</td>
-							<td>3</td>
-							<td>1</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-						</tr>
+					<?php
+					foreach($data as $row){
+						array_push($testIds);
+						echo "<tr>";
+						echo "<td>" . $row['TimeStamp'] . "</td>";
+						for($j=1; $j < $numberOfSamples+1 ; $j++){
+							switch($j){
+								case 1: echo "<td>" . $row['A'] . "</td>"; break;
+								case 2: echo "<td>" . $row['B'] . "</td>"; break;
+								case 3: echo "<td>" . $row['C'] . "</td>"; break;
+								case 4: echo "<td>" . $row['D'] . "</td>"; break;
+								case 5: echo "<td>" . $row['E'] . "</td>"; break;
+								case 6: echo "<td>" . $row['F'] . "</td>"; break;
+							}
+						}
+						echo "</tr>";
+					}
+
+					?>
 					</tbody>
 				</table>
 				</div>
 				<a class="button" href="#">Download</a>
+				<a class="button" href="<?php echo "/test_prep?testId=" . $_GET["testId"]; ?>">Prep test for judgment</a>
 			</div>
 		</div>
 	</div>
