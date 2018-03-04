@@ -12,51 +12,90 @@
 		$judgeNumber = $_GET['judgeNumber'];
 		$testId = $_GET['testId'];
 		
-		if($stmt = $con->prepare("SELECT NumberOfSamples
+		$stmt = $con->prepare("SELECT NumberOfSamples, TestType
 								  FROM Tests
-								  Where TestId = ?")){
-			$stmt->bind_param("i", $testId);
-			$stmt->execute();
-			$stmt->store_result();
-			$stmt->bind_result($sampleNumber);
-			$stmt->fetch();
+								  Where TestId = ?");
+		$stmt->bind_param("i", $testId);
+		$stmt->execute();
+		$stmt->store_result();
+		$stmt->bind_result($sampleNumber, $testType);
+		$stmt->fetch();
 
-			/* inserts a new record for each judge */
-			for($j = 0; $j < $judgeNumber ; $j++){
+		/* inserts a new record for each judge */
+		$stringArray = array();
+		/*checking to see how many samples we need in prep row */
+		/*designates the end of the letter range possible for samples */
+		switch ($sampleNumber){
+					case 1:
+					case 2:
+						$rangeEnd = 'B';
+						break;
+					case 3:
+						$rangeEnd = 'C';
+						break;
+					case 4:
+						$rangeEnd = 'D';
+						break;
+					case 5:
+						$rangeEnd = 'E';
+						break;
+					case 6:
+						$rangeEnd = 'F';
+						break;
+					default:
+						exit("Something is wrong in switch statement");
+						break;
+		}
+		for($j = 0; $j < $judgeNumber ; $j++){
 
-			/* create array with indexes = number of samples */
-			/* randomize indexes in the array */
-				$randomArray1 = range(1, $sampleNumber);
-				$randomArray2 = range(1, $sampleNumber);
-				$stringArray = array();
-				shuffle($randomArray1);
-				shuffle($randomArray2);
+			/* prep for duo trio tests */
+			if($testType == 2){
+				$sampleArray = array('A', $rangeEnd);
+				shuffle($sampleArray);
 
-				/* create strings for prep db with order,sample, and randomid */
+				/* create strings for prep db with sample, and random id */
 				for ($i = 0; $i < $sampleNumber; $i++ ){
-					$stringArray[$i] = $randomArray1[$i] . "." .
-								  	  $randomArray2[$i] . "." .
-								  	  rand(100,999);
-					printf($stringArray[$i]);
-				}
-
-				/*Write to DB*/
-				if($stmt2 = $con->prepare("INSERT INTO Prep
-									VALUES( ?,?,?,?,?,?,?)")){
-					$stmt2->bind_param("issssss", $testId, $stringArray[0], $stringArray[1],
-													$stringArray[2], $stringArray[3], 
-													$stringArray[4],$stringArray[5]);	
-					$stmt2->execute();
+					$stringArray[$i] = $sampleArray[$i] . "." . rand(100,999);
 				}
 			}
-		}else{
-			exit($stmt->error);
-		}
+
+			/* prep for intensity tests */
+			if($testType == 1){
+
+				$sampleArray = range('A', $rangeEnd );
+				shuffle($sampleArray);
+
+				/* create strings for prep db with sample, and random id */
+				for ($i = 0; $i < $sampleNumber; $i++ ){
+					$stringArray[$i] = $sampleArray[$i] . "." . rand(100,999);
+				}
+			}	
+
+			/* prep for Triangle tests */
+			if($testType == 3){
+
+				$sampleArray = array('A', 'A', 'B' );
+				shuffle($sampleArray);
+
+				/* create strings for prep db with sample, and random id */
+				for ($i = 0; $i < $sampleNumber; $i++ ){
+					$stringArray[$i] = $sampleArray[$i] . "." . rand(100,999);
+				}
+			}
+			
+			/*Write to DB*/
+			$stmt2 = $con->prepare("INSERT INTO Prep
+									VALUES( ?,?,?,?,?,?,?)");
+			$stmt2->bind_param("issssss", $testId, $stringArray[0], $stringArray[1],
+													$stringArray[2], $stringArray[3], 
+													$stringArray[4],$stringArray[5]);	
+			$stmt2->execute();
+		}				
 	}else{
 		exit($con->error);
 	}
     $stmt->close();
     $con->close();		
 
-	header("Location: /live_test");
+	header("Location: /live_test?testId=" . $testId);
 ?>
