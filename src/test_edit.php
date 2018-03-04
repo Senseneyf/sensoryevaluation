@@ -56,9 +56,7 @@
 </head>
 <body>
 	<div class="navBar">
-		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-		<a data-active href="/test_type"> + </a>
-		<div class="navLogin"><?php if(isset($_SESSION['username'])) { echo '<a href="admin">Admin</a><a href="/logout" >Logout</a>'; } ?></div>
+		<?php include 'navbar.php'; ?>
 	</div>
 	<div class="container">
 	<div class="row">

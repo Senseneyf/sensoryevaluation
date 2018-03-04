@@ -1,3 +1,4 @@
+<?php include 'session_check.php' ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,7 @@
 </head>
 <body>
   <div class="navBar">
+	<?php include 'navbar.php' ?>
   </div>
   <div class="container">
 	<div class="row">
@@ -28,11 +30,8 @@
 						<option value="5">5</option>
 						<option value="6">6</option>
 					</select>
-
 					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>" class='button'>Cancel</a>
 				</form>
-
-			
 			</div>
 		</div>
     </div>

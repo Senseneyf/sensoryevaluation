@@ -50,11 +50,9 @@
   <link rel="stylesheet" href="css/skeleton.css">
 </head>
 <body>
-	<div class="navBar">
-		<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-		<a data-active href="/test_type"> + </a>
-		<div class="navLogin">
-		<?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
+  <div class="navBar">
+	<?php include 'navbar.php';?>
+  </div>
 	</div>
 	<div class="container">
 	<div class="row">
