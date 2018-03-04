@@ -1,4 +1,10 @@
-<?php include 'session_check.php'; ?>
+<?php
+	include 'session_check.php';
+	/* admin-only access */
+	if(strcmp($_SESSION['username'], "admin") != 0){
+		header("Location: /index");
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +19,7 @@
 </head>
 <body>
 	<div class="navBar">
-	<a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>">My Tests</a>
-	<a href="/test_type"> + </a>
-	<div class="navLogin"><?php if(isset($_SESSION['username']) && $_SESSION['username'] == "admin") { echo '<a data-active href="admin">Admin</a>'; } if(isset($_SESSION['username'])) { echo '<a href="/logout" >Logout</a>'; } ?></div>
+		<?php include 'navbar.php';?>
 	</div>
 	<div class="container">
 	<div class="row">
