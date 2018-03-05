@@ -66,7 +66,7 @@
 						}
 
 						/*INTENSITY TEST*/
-						if($testType == 1){
+						if($testType == 1 || $testType == 3){
 							for($i = 1; $i < $numberOfSamples+1 ; $i++){
 								echo "<th> Sample " . $i . " </th>";
 							}
@@ -77,7 +77,7 @@
 					<?php
 
 						/* INTENSITY TEST */
-						if($testType == 1){
+						if($testType == 1 || $testType == 3){
 							foreach($data as $row){
 
 								echo "<tr>";
