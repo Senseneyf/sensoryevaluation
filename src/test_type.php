@@ -16,12 +16,9 @@
         $stmt = $con->prepare("SELECT TestName,
                                TestDescription,
                                NumberOfSamples,
-                               AttributeName,
+                               ProductName,
                                ScaleType,
-                               StartDescription,
-                               MiddleDescription,
-                               EndDescription,
-			       TestType
+			       				TestType
                                FROM Tests
                                WHERE TestId= ?"); 
         $stmt->bind_param("i", $_GET['testId']);
@@ -29,8 +26,7 @@
         $stmt->store_result();
         $stmt->bind_result($testName, $testDescription,
                            $numberOfSamples, $attributeName, 
-                           $attributeType, $startDescription,
-                           $middleDescription, $endDescription, $testType);
+                           $attributeType, $testType);
         $stmt->fetch();
         $stmt->close();
         $con->close();
