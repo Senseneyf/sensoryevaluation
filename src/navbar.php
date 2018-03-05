@@ -15,13 +15,14 @@ else if(preg_match('(test_edit|test_type)',$page) === 1){
 else if(preg_match('(admin|user_edit|user_create|password_edit)',$page) === 1){
 	echo '<a href="'. $index .'">My Tests</a><a href="/test_type"> Create Test </a>';
 }
+else if(preg_match('(live_test)',$page) === 1){
+	echo '<a href="'. $index .'">My Tests</a><a href="/test_type"> Create Test </a>';
+	//echo '<a href="'. $_SERVER['HTTP_REFERER'] .'">Back</a>';
+}
 //Default case
 else{
 	echo '<a href="'. $index .'">My Tests</a><a href="/test_type"> Create Test </a>';
 }
-
-//Back button
-//echo '<a href="'. $_SERVER["HTTP_REFERER"] .'">Go Back</a>';
 
 echo '<div class="navLogin">';
 //Admin button can be included on all pages
