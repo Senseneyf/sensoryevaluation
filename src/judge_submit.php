@@ -14,18 +14,24 @@
 	if(isset($_GET['E'])) { $sampleE = $_GET['E']; }
 	if(isset($_GET['F'])) { $sampleF = $_GET['F']; }
 	if(isset($_GET['testType'])) { $testType = $_GET['testType']; }
+	if(isset($_GET['judgeName'])) { $judgeName = $_GET['judgeName']; }
 
 	/* Creating a row in the results table */
-	if($stmt = $con->prepare("INSERT INTO Results (TestId, A, B, C, D, E, F) VALUES (?,?,?,?,?,?,?)")){
-		$stmt->bind_param("iiiiiii", $testId, $sampleA, $sampleB, $sampleC, $sampleD, $sampleE, $sampleF);
+	if($stmt = $con->prepare("INSERT INTO Results (JudgeName, TestId, A, B, C, D, E, F) VALUES (?,?,?,?,?,?,?,?)")){
+		$stmt->bind_param("siiiiiii", $judgeName, $testId, $sampleA, $sampleB, $sampleC, $sampleD, $sampleE, $sampleF);
 	}
 	else{
 		exit($con->error);
 	}
+
+	$stmt2 = $con->prepare("DELETE FROM Prep WHERE testId=? LIMIT 1");
+	$stmt2->bind_param("i", $testId);
 	
 	//execute test creation/retrieval
     $stmt->execute();
+	$stmt2->execute();
     $stmt->close();
+	$stmt2->close();
     $con->close();
 
 	header("Location: /index"); 

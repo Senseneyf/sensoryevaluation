@@ -11,11 +11,8 @@
 		$stmt = $con->prepare("SELECT TestName,
 							   TestDescription,
 							   NumberOfSamples,
-							   AttributeName,
+							   ProductName,
 							   ScaleType,
-							   StartDescription,
-							   MiddleDescription,
-							   EndDescription,
 							   TestType
 							   FROM Tests
 							   WHERE TestId= ?"); 
@@ -24,11 +21,12 @@
 		$stmt->store_result();
 		$stmt->bind_result($testName, $testDescription,
 						   $numberOfSamples, $attributeName, 
-						   $attributeType, $startDescription,
-						   $middleDescription, $endDescription, $testType);
+						   $attributeType, $testType);
 		$stmt->fetch();
 		
-		$stmt2 = $con->prepare("SELECT TimeStamp,
+		$stmt2 = $con->prepare("SELECT
+		               JudgeName,
+					   TimeStamp,
 					   A,
 					   B,
 					   C,
@@ -85,6 +83,7 @@
 					<thead>
 						<tr>
 							<th>Date/Time (DEC)</th>
+							<th>Judge Name</th>
 							<?php
 								for($i=1 ; $i < $numberOfSamples+1 ; $i++){
 									switch($i){
@@ -106,6 +105,7 @@
 						array_push($testIds);
 						echo "<tr>";
 						echo "<td>" . $row['TimeStamp'] . "</td>";
+						echo "<td>". $row['JudgeName'] ."</td>";
 						for($j=1; $j < $numberOfSamples+1 ; $j++){
 							switch($j){
 								case 1: echo "<td>" . $row['A'] . "</td>"; break;
@@ -123,7 +123,7 @@
 					</tbody>
 				</table>
 				</div>
-				<a class="button" href="#">Download</a>
+				<a class="button" href="<?php echo "/writeToFile?testId=" . $_GET["testId"]; ?>">Download</a>
 				<a class="button" href="<?php echo "/test_prep?testId=" . $_GET["testId"]; ?>">Prep test for judgment</a>
 			</div>
 		</div>

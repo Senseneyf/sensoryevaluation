@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+	$(document).ready(function(){
+		$(':radio').on('change', function() {
+			$(':radio').not(this).prop('checked', false);  
+		});
+	});
+  </script>
   <title>Judge</title>
   <?php
 	if(isset($_GET['testId'])){
@@ -14,11 +22,8 @@
 		$stmt = $con->prepare("SELECT TestName,
 							   TestDescription,
 							   NumberOfSamples,
-							   AttributeName,
+							   ProductName,
 							   ScaleType,
-							   StartDescription,
-							   MiddleDescription,
-							   EndDescription,
 							   TestType
 							   FROM Tests
 							   WHERE TestId= ?"); 
@@ -27,10 +32,8 @@
 		$stmt->store_result();
 		$stmt->bind_result($testName, $testDescription,
 						   $numberOfSamples, $attributeName, 
-						   $attributeType, $startDescription,
-						   $middleDescription, $endDescription, $testType);
+						   $attributeType, $testType);
 		$stmt->fetch();
-
 
 		$stmt2 = $con->prepare("SELECT *
 								FROM Prep
@@ -38,7 +41,6 @@
 								LIMIT 1");
 		$stmt2->bind_param("i", $_GET['testId']);
 		$stmt2->execute();
-
 
 		$result = $stmt2->get_result();
 		$data = $result->fetch_all(MYSQLI_ASSOC);
@@ -53,7 +55,7 @@
 
 		$prepArray = array($sample1, $sample2, $sample3, $sample4, $sample5, $sample6);
 		
-
+		$stmt2->close();
 		$stmt->close();
 		$con->close();
 	}
@@ -78,6 +80,7 @@
 				<?php echo $testDescription; ?>
 				<div class="hrule"></div>
 				<form name="judgeSubmit" action='/judge_submit'><br>
+				<input type="text" name="judgeName" placeholder="Your name"><br>
 				<?php
 				//hidden inputs to submit testId and testType as get vars
 				if(isset($_GET['testId'])) { 
@@ -111,23 +114,24 @@
 					echo "<div class='testAttribute'>
 						<p> Sample #" . $prepArray[0][1] . "&emsp;<br>
 						<input type='radio' name='".$prepArray[0][0]."' value='1'/>
-						</p>
-						<p> Sample #" . $prepArray[1][1] . "&emsp;<br>
+						<br>
+						Sample #" . $prepArray[1][1] . "&emsp;<br>
 						<input type='radio' name='".$prepArray[1][0]."' value='2'/>
 						</p>
 						</div>";
 				}
+				
 				//Triangle test
 				if($testType == 3){
 					echo "<div class='testAttribute'>
 						<p> Sample #" . $prepArray[0][1] . "&emsp;<br>
-						<input type='radio' name='".$prepArray[0][0]."' value='1'/>
+						<input type='radio'  name='".$prepArray[0][0]."' value='1'/>
 						</p>
 						<p> Sample #" . $prepArray[1][1] . "&emsp;<br>
-						<input type='radio' name='".$prepArray[1][0]."' value='2'/>
+						<input type='radio'  name='".$prepArray[1][0]."' value='2'/>
 						</p>
 						<p> Sample #" . $prepArray[2][1] . "&emsp;<br>
-						<input type='radio' name='".$prepArray[1][0]."' value='3'/>
+						<input type='radio'  name='".$prepArray[2][0]."' value='3'/>
 						</p>
 						</div>";
 				}
