@@ -116,7 +116,7 @@
 						<input type='radio' name='".$prepArray[0][0]."' value='1'/>
 						<br>
 						Sample #" . $prepArray[1][1] . "&emsp;<br>
-						<input type='radio' name='".$prepArray[1][0]."' value='2'/>
+						<input type='radio' name='".$prepArray[1][0]."' value='1'/>
 						</p>
 						</div>";
 				}
@@ -128,10 +128,10 @@
 						<input type='radio'  name='".$prepArray[0][0]."' value='1'/>
 						</p>
 						<p> Sample #" . $prepArray[1][1] . "&emsp;<br>
-						<input type='radio'  name='".$prepArray[1][0]."' value='2'/>
+						<input type='radio'  name='".$prepArray[1][0]."' value='1'/>
 						</p>
 						<p> Sample #" . $prepArray[2][1] . "&emsp;<br>
-						<input type='radio'  name='".$prepArray[2][0]."' value='3'/>
+						<input type='radio'  name='".$prepArray[2][0]."' value='1'/>
 						</p>
 						</div>";
 				}
