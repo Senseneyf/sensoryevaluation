@@ -12,12 +12,9 @@
 	if(isset($_GET['attributeName'])) { $attributeName = $_GET['attributeName']; }	
 	if(isset($_GET['attributeType'])) { $scaleType = $_GET['attributeType']; }
 	if(isset($_GET['sampleNumber'])) { $numberOfSamples = $_GET['sampleNumber']; }
-	if(isset($_GET['startDescription'])) { $startDescription = $_GET['startDescription']; }
-	if(isset($_GET['middleDescription'])) { $middleDescription = "to be implemented"; }//TODO: add this to the html form
-	if(isset($_GET['endDescription'])) { $endDescription = $_GET['endDescription']; }
 	if(isset($_GET['testType'])) { $testType = $_GET['testType']; }
 	if(isset($_GET['testId'])) { $testId = $_GET['testId']; }
-	echo $testName . $testDescription . " " . $attributeName . " " .  $scaleType . " " .  $numberOfSamples . " " .  $startDescription . " " .  $middleDescription . " " .  $endDescription . " " .  $testType . " " .  $testId;
+	echo $testName . $testDescription . " " . $attributeName . " " .  $scaleType . " " .  $numberOfSamples . " "  .  $testType . " " .  $testId;
 
 	/* If there is a testId defined, then we're editing a test */
     if(isset($_GET['testId'])){
@@ -28,19 +25,15 @@
 							SET TestName = ?,
 							TestDescription = ?,
 							NumberOfSamples = ?,
-							AttributeName = ?,
+							ProductName = ?,
 							ScaleType = ?,
-							StartDescription = ?,
-							MiddleDescription = ?,
-							EndDescription = ?,
 							TestCreator = ?,
 							TestType = ?
 							WHERE TestId = ?")){
 	
-		$stmt->bind_param("ssisissssii", $testName, $testDescription, 
+		$stmt->bind_param("ssisisii", $testName, $testDescription, 
                                    $numberOfSamples, $attributeName,
-                                   $scaleType, $startDescription,
-                                   $middleDescription, $endDescription, $_SESSION['username'], $testType, $testId);
+                                   $scaleType, $_SESSION['username'], $testType, $testId);
 		}else{
 			exit($con->error);
 		}
@@ -50,13 +43,12 @@
 		//printf("testId isn't set in get");
 		//exit(0);
 		/* Creating a row/test in DB */
-		if($stmt = $con->prepare("INSERT INTO Tests (TestName, TestDescription, NumberOfSamples, AttributeName,
-												ScaleType, StartDescription, MiddleDescription, EndDescription, TestCreator, TestType)
-							 	VALUES (?,?,?,?,?,?,?,?,?,?)")){
-    	$stmt->bind_param("ssisissssi", $testName, $testDescription, 
+		if($stmt = $con->prepare("INSERT INTO Tests (TestName, TestDescription, NumberOfSamples, ProductName,
+												ScaleType, TestCreator, TestType)
+							 	VALUES (?,?,?,?,?,?,?)")){
+    	$stmt->bind_param("ssisisi", $testName, $testDescription, 
                                    $numberOfSamples, $attributeName,
-                                   $scaleType, $startDescription,
-                                   $middleDescription, $endDescription, $_SESSION['username'], $testType);
+                                   $scaleType, $_SESSION['username'], $testType);
 	
     	}else{
 			exit($con->error);
