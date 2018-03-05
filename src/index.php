@@ -77,7 +77,7 @@
 						foreach($data as $row){
 							array_push($testIds);
 							echo "<tr>";
-							echo "<td><a href=\"/test_prep?testId=" . $row['TestId'] .  "\">" . $row['TestName'] . "</a></td>";
+							echo "<td><a href=\"/test_info?testId=" . $row['TestId'] .  "\">" . $row['TestName'] . "</a></td>";
 							echo "<td>" . $row['DateCreated'] . "</td>";
 							echo "<td><a href=\"/test_edit?testId=" . $row['TestId'] . "\">". "Edit</a>	&emsp;";
 							echo "<a href=\"/test_delete?testId=" . $row['TestId']. "\">". "Delete</a></td>";
