@@ -16,11 +16,8 @@
         $stmt = $con->prepare("SELECT TestName,
                                TestDescription,
                                NumberOfSamples,
-                               AttributeName,
+                               ProductName,
                                ScaleType,
-                               StartDescription,
-                               MiddleDescription,
-                               EndDescription,
 							   TestType
                                FROM Tests
                                WHERE TestId= ?"); 
@@ -29,8 +26,7 @@
         $stmt->store_result();
         $stmt->bind_result($testName, $testDescription,
                            $numberOfSamples, $attributeName, 
-                           $attributeType, $startDescription,
-                           $middleDescription, $endDescription, $testType);
+                           $attributeType, $testType);
         $stmt->fetch();
         $stmt->close();
         $con->close();
@@ -104,15 +100,14 @@
 					
 					<?php if($testType == 1): ?>
 					<fieldset>					
-					<label for="attributes">Attributes</label>
-					<div>Name: <input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px" required></div>
-					<div>Type: <select name="attributeType">
+					<label for="attributeName">Product Name</label>
+					<div><input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px" required></div>
+					<label for="attributeType">Scale Type</label>
+					<div><select name="attributeType">
 						<option <?php if($attributeType == 1){ echo selected; }?> value="1">9 point scale</option>
 						<option <?php if($attributeType == 2){ echo selected; }?> value="2">6 point scale</option>
 						<option <?php if($attributeType == 3){ echo selected; }?> value="3">Unstructured scale</option>
 					</select></div>
-					<div>Start descriptor: <input class="u-full-width" type="text" name="startDescription" <?php echo 'value="'.htmlspecialchars($startDescription).'"'; ?> style="width:150px"></div>
-					<div>End descriptor: <input class="u-full-width" type="text" name="endDescription" <?php echo 'value="'.htmlspecialchars($endDescription).'"'; ?> style="width:150px"></div>
 					</fieldset>
 					<?php endif; ?>
 					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>" class='button'>Cancel</a>
