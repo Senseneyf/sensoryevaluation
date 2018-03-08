@@ -59,7 +59,13 @@
 		$stmt->close();
 		$con->close();
 	}
-  ?>
+	
+	/* Replaces new line characters in strings with html <br> tags */ 
+	function nl2br2($string) { 
+		$string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string); 
+		return $string; 
+	} 
+?>
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
@@ -69,18 +75,18 @@
   <link rel="stylesheet" href="css/skeleton.css">
 	</head>
 	<body>
-	<div class="navBar">
-	</div>
+	<!--<div class="navBar">
+	</div>-->
 	<div class="container">
 	<div class="row">
 		<div class="tweleve columns top-offset">
 			<div class="nine columns offset-by-one">
 				<fieldset>
 				<h5><?php echo "Judgment: ".$testName; ?></h5>
-				<?php echo $testDescription; ?>
+				<?php echo nl2br2($testDescription); ?>
 				<div class="hrule"></div>
 				<form name="judgeSubmit" action='/judge_submit'><br>
-				<input type="text" name="judgeName" placeholder="Your name"><br>
+				<input required type="text" name="judgeName" placeholder="Your name"><br>
 				<?php
 				//hidden inputs to submit testId and testType as get vars
 				if(isset($_GET['testId'])) { 
@@ -106,7 +112,7 @@
 							echo "<input class='slider cen' value='50' type='range' min='0' max='100' name='".$prepArray[$i][0]."' step='1' list='tickmarks'>";
 							//echo "<datalist id='tickmarks'><option value='0'><option value='10'><option value='20'><option value='30'><option value='40'><option value='50'><option value='60'><option value='70'><option value='80'><option value='90'><option value='100'></datalist>";
 						}
-						echo "</p><p>&zwnj;</p></div>";
+						echo "</p></div>";
 					}
 				}
 				//Duo-Trio tests

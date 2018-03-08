@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	/* Attempt to connect to db */
-    $con = new mysqli('localhost','root','applechair','test');
+	$con = new mysqli('localhost','root','applechair','test');
 	if($con->connect_error){
 		exit("Database connection failed");
 	}
@@ -17,7 +17,7 @@
 	echo $testName . $testDescription . " " . $attributeName . " " .  $scaleType . " " .  $numberOfSamples . " "  .  $testType . " " .  $testId;
 
 	/* If there is a testId defined, then we're editing a test */
-    if(isset($_GET['testId'])){
+	if(isset($_GET['testId'])){
 		//printf("testId is set in get");
 		//exit(0);
 		/* Update row/test in DB (FOR TEST EDITING) */ 
@@ -46,20 +46,21 @@
 		if($stmt = $con->prepare("INSERT INTO Tests (TestName, TestDescription, NumberOfSamples, ProductName,
 												ScaleType, TestCreator, TestType)
 							 	VALUES (?,?,?,?,?,?,?)")){
-    	$stmt->bind_param("ssisisi", $testName, $testDescription, 
+		$stmt->bind_param("ssisisi", $testName, $testDescription, 
                                    $numberOfSamples, $attributeName,
                                    $scaleType, $_SESSION['username'], $testType);
 	
-    	}else{
+		}else{
 			exit($con->error);
 		}
 
 	}
 	
 	//execute test creation/retrieval
-    $stmt->execute();
-    $stmt->close();
-    $con->close();
+	$stmt->execute();
+	$stmt->close();
+	$con->close();
 
-	header("Location: /index"); 
+	//header("Location: /test_execution?testId=" . $testId . "&testType=" . $testType . "&sampleNumber=" . $numberOfSamples); 
+	header ("Location: /index");
 ?>

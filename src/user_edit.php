@@ -38,7 +38,8 @@
 			echo "<td><a href='/password_edit?user=" . $row['username'] . "' class='button'>Change Password </a></td>";	//edit pass button
 			/* remove user button shows up for every user except admin */
 			if (strcmp($row['username'],"admin") != 0){
-				echo "<td><a href='?mode=delete&user=" . $row['username'] . "' class='button'>Delete User </a></td>";	//remove user button
+				echo "<td><a href='?mode=delete&user=" . $row['username'] . "' class='button' onclick='return checkDelete()'>Delete User </a></td>";	//remove user button
+				echo "<td><a href='?mode=deletedt&user=" . $row['username'] . "' class='button' onclick='return checkDeleteTests()'>Delete User and Tests</a></td>";	//remove with tests
 			}
 			echo "</tr>";
 		}	
@@ -46,8 +47,9 @@
 		$usersList->close();
 	}
 
-	/* removes user from database */
-	function delete_user($username){
+	/* removes user from database and deletes all their tests if prompted */
+	function delete_user($username, $dt){
+		
 		/* connect to db */
 		$con = new mysqli('localhost','root','applechair','test');
 		if($con->connect_error){
@@ -64,12 +66,24 @@
 		$target->bind_param("s", $username);
 		$target->execute();
 		$target->close();
+
+		if ($dt){
+			/* prepare statement for deleting user tests */
+			$tests = $con->prepare("DELETE FROM Tests WHERE TestCreator = ?");
+			$tests->bind_param("s", $username);
+			$tests->execute();
+			$tests->close();
+		}
 	}
 
 	if(isset($_GET['mode']) && !empty($_GET['user'])){
 
 		if($_GET['mode'] == 'delete'){
-			delete_user($_GET['user']);
+			delete_user($_GET['user'], false);
+		}
+
+		if($_GET['mode'] == 'deletedt'){
+			delete_user($_GET['user'], true);
 		}
 	}
 ?>
@@ -85,6 +99,17 @@
 	<link rel="stylesheet" href="css/custom.css">
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
+
+	<script language="JavaScript" type="text/javascript">
+	function checkDelete(){
+		return confirm('Are you sure you want to delete this user?');
+	}
+
+	function checkDeleteTests(){
+		return confirm('Are you sure you want to delete this user and all their tests?');
+	}
+	</script>
+
 </head>
 <body>
 	<div class="navBar">

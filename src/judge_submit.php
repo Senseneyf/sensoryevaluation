@@ -26,7 +26,10 @@
 
 	$stmt2 = $con->prepare("DELETE FROM Prep WHERE testId=? LIMIT 1");
 	$stmt2->bind_param("i", $testId);
-	
+
+	//TODO add statement for adding row to Prep DB
+		
+
 	//execute test creation/retrieval
     $stmt->execute();
 	$stmt2->execute();

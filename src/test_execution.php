@@ -1,26 +1,5 @@
 <?php
 
-	/* Attempt to connect to db */
-    $con = new mysqli('localhost','root','applechair','test');
-	if($con->connect_error){
-		exit("Database connection failed");
-	}
-
-	if(isset($_GET['testId']) &&
-	   isset($_GET['judgeNumber'])){
-	
-		$judgeNumber = $_GET['judgeNumber'];
-		$testId = $_GET['testId'];
-		
-		$stmt = $con->prepare("SELECT NumberOfSamples, TestType
-								  FROM Tests
-								  Where TestId = ?");
-		$stmt->bind_param("i", $testId);
-		$stmt->execute();
-		$stmt->store_result();
-		$stmt->bind_result($sampleNumber, $testType);
-		$stmt->fetch();
-
 		/* inserts a new record for each judge */
 		$stringArray = array();
 		/*checking to see how many samples we need in prep row */
@@ -46,30 +25,18 @@
 						exit("Something is wrong in switch statement");
 						break;
 		}
-		for($j = 0; $j < $judgeNumber ; $j++){
+		for($j = 0; $j < 40 ; $j++){
 
 			/* prep for duo trio tests */
-			if($testType == 2){
+			if($testType == 2 || $testType ==1){
 				$sampleArray = array('A', $rangeEnd);
 				shuffle($sampleArray);
 
 				/* create strings for prep db with sample, and random id */
-				for ($i = 0; $i < $sampleNumber; $i++ ){
+				for ($i = 0; $i < $numberOfSamples; $i++ ){
 					$stringArray[$i] = $sampleArray[$i] . "." . rand(100,999);
 				}
 			}
-
-			/* prep for intensity tests */
-			if($testType == 1){
-
-				$sampleArray = range('A', $rangeEnd );
-				shuffle($sampleArray);
-
-				/* create strings for prep db with sample, and random id */
-				for ($i = 0; $i < $sampleNumber; $i++ ){
-					$stringArray[$i] = $sampleArray[$i] . "." . rand(100,999);
-				}
-			}	
 
 			/* prep for Triangle tests */
 			if($testType == 3){
@@ -97,5 +64,5 @@
     $stmt->close();
     $con->close();		
 
-	header("Location: /live_test?testId=" . $testId);
+	header("Location: /index");
 ?>

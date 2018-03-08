@@ -17,7 +17,6 @@ else if(preg_match('(admin|user_edit|user_create|password_edit)',$page) === 1){
 }
 else if(preg_match('(live_test)',$page) === 1){
 	echo '<a href="'. $index .'">My Tests</a><a href="/test_type"> Create Test </a>';
-	//echo '<a href="'. $_SERVER['HTTP_REFERER'] .'">Back</a>';
 }
 //Default case
 else{
@@ -34,6 +33,7 @@ if(isset($_SESSION['username']) && $_SESSION['username'] === "admin"){
 		echo '<a href="/admin">Admin</a>';
 	}
 }
+echo '<a href="/help.htm"> Help </a>';
 //Logout is always avaliable if someone is logged in
 if(isset($_SESSION['username'])){
 	echo '<a href="/logout" >Logout</a>';

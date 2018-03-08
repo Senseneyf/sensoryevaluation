@@ -9,14 +9,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Register New User - Sensory Evaluation</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
-  <link rel="stylesheet" href="css/custom.css">
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
+	<meta charset="utf-8">
+	<title>Change user password - Sensory Evaluation</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
 </head>
 <body>
 	<div class="navBar">
@@ -30,8 +30,8 @@
 				<form method="post" action="password_edit.php" name="registerform" id="registerform">
 				<fieldset>
 				<input hidden name="username" value="<?php echo $_GET['user']; ?>">
-				<label for="password">Password:</label><input type="password" name="password" id="password" required><br />
-				<label for="password2">Re-enter Password:</label><input type="password" name="password2" id="password2" required><br />
+				<label for="password">New Password:</label><input type="password" name="password" id="password" required><br />
+				<label for="password2">Confirm New Password:</label><input type="password" name="password2" id="password2" required><br />
 				<input type="submit" name="register" id="register" value="Register" />
 				</fieldset>
 				</form>

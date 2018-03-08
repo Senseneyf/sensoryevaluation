@@ -88,6 +88,8 @@
 					<input class="u-full-width" type="text" name="testName" <?php echo "value=\"".htmlspecialchars($testName)."\""; ?> style="width:300px"  required>
 					<label for="testDescription">Description</label>
 					<textarea class="u-full-width" name="testDescription" style="height:115px;" required><?php echo htmlspecialchars($testDescription); ?></textarea>
+
+					<?php if($testType == 1): ?>
 					<label for="sampleNumber">Number of Samples</label>
 					<select name="sampleNumber">
 						<option <?php if($numberOfSamples == 1){ echo selected; }?> value="1">1</option>
@@ -97,8 +99,6 @@
 						<option <?php if($numberOfSamples == 5){ echo selected; }?> value="5">5</option>
 						<option <?php if($numberOfSamples == 6){ echo selected; }?> value="6">6</option>
 					</select>
-					
-					<?php if($testType == 1): ?>
 					<fieldset>					
 					<label for="attributeName">Product Name</label>
 					<div><input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px" required></div>
@@ -109,7 +109,19 @@
 						<option <?php if($attributeType == 3){ echo selected; }?> value="3">Unstructured scale</option>
 					</select></div>
 					</fieldset>
+					<?php elseif($testType==2): ?>
+						<input type='hidden' name='sampleNumber' value='2'>
+						<label for="attributeName">Product Name</label>
+						<div><input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px" required></div>
+					<?php elseif($testType==3): ?>
+						<input type='hidden' name='sampleNumber' value='3'>
+						<label for="attributeName">Product Name</label>
+						<div><input class="u-full-width" type="text"  name="attributeName" <?php echo 'value="'.htmlspecialchars($attributeName).'"'; ?> style="width:150px" required></div>
 					<?php endif; ?>
+					
+					
+					
+
 					<br><input class="button-secondary" method="post" type="submit" value="Submit"> <a href="<?php echo "http://" . $_SERVER['HTTP_HOST']; ?>" class='button'>Cancel</a>
 				</form>
 				</fieldset>

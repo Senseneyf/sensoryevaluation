@@ -45,27 +45,25 @@
 		$stmt2->close();
 		$con->close();
 	}
-	
-	
-  ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Test Creation - Sensory Evaluation</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
-  <link rel="stylesheet" href="css/custom.css">
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <style type="text/css">
-  h5{
-	  /*text-decoration: underline;*/
-	  margin-bottom: 0;
-  }
-  
-  </style>
+	<meta charset="utf-8">
+	<title>Test Creation - Sensory Evaluation</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<style type="text/css">
+	h5{
+		/*text-decoration: underline;*/
+		margin-bottom: 0;
+	}
+	
+	</style>
 </head>
 <body>
 	<div class="navBar">
@@ -78,6 +76,13 @@
 				<a class="button" style="float:right;" href="<?php echo "/judge?testId=" . $_GET['testId'] ?>">Judgment</a>
 				<h4><?php if(isset($testName))echo $testName; ?></h4>
 				<div class="hrule"></div>
+				
+				<?php if ($testType == 2): ?>
+					<div>1 in the A column is a correct guess of the reference sample</div>
+				<?php elseif ($testType == 3): ?>
+					<div>1 in the B column is a correct guess of the non-reference sample</div>
+				<?php endif; ?>
+				
 				<div><br><h5>Judgment Results</h5>
 				<table class="u-full-width">
 					<thead>
@@ -101,6 +106,7 @@
 					</thead>
 					<tbody>
 					<?php
+
 					foreach($data as $row){
 						array_push($testIds);
 						echo "<tr>";
@@ -124,7 +130,7 @@
 				</table>
 				</div>
 				<a class="button" href="<?php echo "/writeToFile?testId=" . $_GET["testId"]; ?>">Download</a>
-				<a class="button" href="<?php echo "/test_prep?testId=" . $_GET["testId"]; ?>">Prep test for judgment</a>
+				<a class="button" href="<?php echo "/live_test?testId=" . $_GET["testId"]; ?>">Prep test for judgment</a>
 			</div>
 		</div>
 	</div>
